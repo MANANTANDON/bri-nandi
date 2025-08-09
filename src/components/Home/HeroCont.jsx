@@ -56,13 +56,21 @@ export const HeroCont = () => {
         }}
         className="chartSpin"
       >
-        <Image
-          src={"/chartwheel.svg"}
-          layout="intrinsic"
-          height={800}
-          width={800}
-          style={{ transform: "scale(1.5)" }}
-        />
+        <div
+          style={{
+            position: "relative",
+            height: { xs: "700px", md: "1000px" },
+            width: { xs: "700px", md: "1000px" },
+            overflow: "hidden",
+          }}
+        >
+          <Image
+            src={"/chartwheel.svg"}
+            layout="fill"
+            objectFit="cover"
+            objectPosition="center"
+          />
+        </div>
       </div>
       <div
         style={{
