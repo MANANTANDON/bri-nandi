@@ -1,18 +1,37 @@
 // components/Home/HeroCont.jsx
 import { StarBackground } from "@/components/StarBackground";
 import Image from "next/image";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { Header } from "@/components/Header/Header";
 
 export const HeroCont = () => {
+  const [height, setHeight] = useState();
+  useEffect(() => {
+    setHeight(window.innerHeight);
+    console.log(window.innerHeight);
+  }, [height]);
+
   return (
     <div
       style={{
         position: "relative",
-        height: "100vh",
+        height: `${height}px`,
         overflow: "hidden",
         background: "#1F1F1F",
       }}
     >
+      <div
+        style={{
+          width: "100%",
+          position: "absolute",
+          top: 0,
+          height: "200px",
+          background: "linear-gradient(to top, transparent,#1f1f1f)",
+          zIndex: 3,
+        }}
+      >
+        <Header />
+      </div>
       <div
         style={{
           position: "absolute",
@@ -20,28 +39,16 @@ export const HeroCont = () => {
           zIndex: 0,
         }}
       >
-        <Suspense fallback={<div>Loading particles...</div>}>
+        <Suspense>
           <StarBackground />
-          {/* Or pass custom styles: <StarBackground style={{ opacity: 0.9 }} /> */}
         </Suspense>
-      </div>
-
-      <div
-        style={{
-          textAlign: "center",
-          color: "#f48643",
-          fontSize: "43px",
-          marginTop: "100px",
-        }}
-      >
-        Bri Nandi
       </div>
       <div
         style={{
           position: "absolute",
-          left: "50%", // center horizontally
+          left: "50%",
           bottom: 0,
-          transform: "translateX(-50%) translateY(50%)", // keep bottom offset and horizontal centering
+          transform: "translateX(-50%) translateY(50%)",
           zIndex: 2,
           display: "flex",
           justifyContent: "center",
@@ -54,9 +61,19 @@ export const HeroCont = () => {
           layout="intrinsic"
           height={800}
           width={800}
-          style={{ transform: "scale(1.2)" }} // scales image
+          style={{ transform: "scale(1.5)" }}
         />
       </div>
+      <div
+        style={{
+          width: "100%",
+          position: "absolute",
+          bottom: 0,
+          height: "200px",
+          background:
+            "linear-gradient(to bottom, transparent 20%, #f48643 120%)",
+        }}
+      ></div>
     </div>
   );
 };
