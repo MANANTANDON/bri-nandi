@@ -30,7 +30,7 @@ export const Header = () => {
         <Box>
           <a href="/">
             <Image
-              src={"/logo.png"}
+              src={"/logo2.png"}
               layout="intrinsic"
               height={60}
               width={130}
