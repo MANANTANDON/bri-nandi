@@ -92,31 +92,36 @@ export const HeroCont = () => {
         sx={{
           position: "absolute",
           transform: {
-            xs: "translateX(-50%) translateY(60%)",
-            md: "translateX(-50%) translateY(48%)",
+            xs: "translateX(-50%) translateY(70%)",
+            md: "translateX(-50%) translateY(60%)",
+            lg: "translateX(-50%) translateY(48%)",
           },
           left: "50%",
-          width: { xs: "calc(100% - 50px)", md: "fit-content" },
+          width: {
+            xs: "calc(100% - 50px)",
+            md: "calc(100% - 100px)",
+            lg: "fit-content",
+          },
           zIndex: 5,
         }}
       >
         <Typography
-          fontSize={{ xs: "24px", md: "52px" }}
+          fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
           fontWeight={700}
           textAlign={"center"}
         >
           Unlock the secrets of the,
         </Typography>
         <Typography
-          fontSize={{ xs: "24px", md: "52px" }}
+          fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
           fontWeight={700}
           textAlign={"center"}
-          sx={{ my: { xs: -0.5, md: -2 } }}
+          sx={{ my: { xs: -0.5, sm: -1.6, md: -2 } }}
         >
           stars and <span style={{ color: "#f48643" }}>discover your</span>
         </Typography>
         <Typography
-          fontSize={{ xs: "24px", md: "52px" }}
+          fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
           fontWeight={700}
           textAlign={"center"}
         >
@@ -128,7 +133,7 @@ export const HeroCont = () => {
             color: "#f8f8f8",
             textAlign: "center",
             mt: { xs: 3, md: 1 },
-            fontSize: { xs: "14px", md: "16px" },
+            fontSize: { xs: "14px", sm: "16px" },
           }}
         >
           Discover your cosmic destiny with horoscopes, birth charts, and
