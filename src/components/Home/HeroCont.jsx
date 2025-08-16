@@ -3,6 +3,7 @@ import { StarBackground } from "@/components/StarBackground";
 import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import { Header } from "@/components/Header/Header";
+import { Box } from "@mui/material";
 
 export const HeroCont = () => {
   const [height, setHeight] = useState();
@@ -27,7 +28,7 @@ export const HeroCont = () => {
           top: 0,
           height: "200px",
           background: "linear-gradient(to top, transparent,#1f1f1f)",
-          zIndex: 3,
+          zIndex: 100,
         }}
       >
         <Header />
@@ -56,8 +57,8 @@ export const HeroCont = () => {
         }}
         className="chartSpin"
       >
-        <div
-          style={{
+        <Box
+          sx={{
             position: "relative",
             height: { xs: "700px", md: "1000px" },
             width: { xs: "700px", md: "1000px" },
@@ -70,7 +71,7 @@ export const HeroCont = () => {
             objectFit="cover"
             objectPosition="center"
           />
-        </div>
+        </Box>
       </div>
       <div
         style={{
