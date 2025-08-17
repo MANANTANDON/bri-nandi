@@ -124,7 +124,7 @@ export const HeroCont = () => {
           textAlign={"center"}
           sx={{ color: "#FFFFFF" }}
         >
-          Cosmic Path
+          cosmic path
         </Typography>
 
         <Typography

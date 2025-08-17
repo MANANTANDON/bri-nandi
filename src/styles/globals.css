@@ -63,7 +63,7 @@
 }
 
 @font-face {
-  font-family: "Outfit";
+  font-family: "Outfit SemiBold";
   src: url("/fonts/Outfit-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
@@ -109,6 +109,9 @@ a {
 
 .font-700 {
   font-family: "Outfit Bold" !important;
+}
+.font-600 {
+  font-family: "Outfit SemiBold" !important;
 }
 
 .font-500 {
