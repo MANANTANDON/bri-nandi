@@ -4,10 +4,7 @@ import Image from "next/image";
 import { Suspense, useEffect, useState } from "react";
 import { Header } from "@/components/Header/Header";
 import { Box, Button, Typography } from "@mui/material";
-import {
-  ArrowForwardIosRounded,
-  ArrowForwardRounded,
-} from "@mui/icons-material";
+import { ArrowForwardRounded } from "@mui/icons-material";
 
 export const HeroCont = () => {
   const [height, setHeight] = useState();
@@ -107,23 +104,25 @@ export const HeroCont = () => {
       >
         <Typography
           fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
-          fontWeight={700}
           textAlign={"center"}
+          sx={{ color: "#FFFFFF" }}
+          className="font-700"
         >
           Unlock the secrets of the,
         </Typography>
         <Typography
           fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
-          fontWeight={700}
+          className="font-700"
           textAlign={"center"}
-          sx={{ my: { xs: -0.5, sm: -1.6, md: -2 } }}
+          sx={{ my: { xs: -0.5, sm: -1.6, md: -2 }, color: "#FFFFFF" }}
         >
           stars and <span style={{ color: "#f48643" }}>discover your</span>
         </Typography>
         <Typography
           fontSize={{ xs: "24px", sm: "42px", md: "52px" }}
-          fontWeight={700}
+          className="font-700"
           textAlign={"center"}
+          sx={{ color: "#FFFFFF" }}
         >
           Cosmic Path
         </Typography>
@@ -135,6 +134,7 @@ export const HeroCont = () => {
             mt: { xs: 3, md: 1 },
             fontSize: { xs: "14px", sm: "16px" },
           }}
+          className="font-500"
         >
           Discover your cosmic destiny with horoscopes, birth charts, and
           personalized insights. Let the stars guide your journey!
@@ -150,8 +150,8 @@ export const HeroCont = () => {
             color: "#f8f8f8",
             fontSize: { xs: "16px", md: "20px" },
             borderRadius: "100px",
-            fontWeight: 700,
           }}
+          className="font-500"
           fullWidth
           endIcon={<ArrowForwardRounded />}
         >

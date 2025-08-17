@@ -50,9 +50,9 @@ export const Header = () => {
               component={"a"}
               href={item.link}
               key={key}
+              className={router?.asPath === item.link ? "font-700" : "font-400"}
               sx={{
                 color: router?.asPath === item.link ? "#f48643" : "#FFFFFF",
-                fontWeight: router?.asPath === item.link && 700,
                 textDecoration: "none",
                 position: "relative",
                 transition: "color 0.3s ease",
@@ -88,9 +88,9 @@ export const Header = () => {
               px: 3.5,
               py: 1,
               fontSize: "16px",
-              fontWeight: "bold",
               borderRadius: "100px",
             }}
+            className="font-500"
           >
             Book Now
           </Button>
@@ -169,9 +169,11 @@ export const Header = () => {
                   component={"a"}
                   href={item.link}
                   key={key}
+                  className={
+                    router?.asPath === item.link ? "font-700" : "font-400"
+                  }
                   sx={{
                     color: router?.asPath === item.link ? "#f48643" : "#FFFFFF",
-                    fontWeight: router?.asPath === item.link && 700,
                     textDecoration: "none",
                     position: "relative",
                     transition: "color 0.3s ease",
@@ -209,9 +211,9 @@ export const Header = () => {
                 px: 3.5,
                 py: 1,
                 fontSize: "16px",
-                fontWeight: "bold",
                 borderRadius: "100px",
               }}
+              className="font-500"
             >
               Book Now
             </Button>
