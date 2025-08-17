@@ -6,7 +6,7 @@ import { Header } from "@/components/Header/Header";
 import { Box, Button, Typography } from "@mui/material";
 import { ArrowForwardRounded } from "@mui/icons-material";
 
-export const HeroCont = () => {
+export const HeroCont = ({ onScrollToForm }) => {
   const [height, setHeight] = useState();
   useEffect(() => {
     setHeight(window.innerHeight);
@@ -32,7 +32,7 @@ export const HeroCont = () => {
           zIndex: 100,
         }}
       >
-        <Header />
+        <Header onScrollToForm={onScrollToForm} />
       </div>
       <div
         style={{
@@ -154,6 +154,7 @@ export const HeroCont = () => {
           className="font-500"
           fullWidth
           endIcon={<ArrowForwardRounded />}
+          onClick={onScrollToForm}
         >
           Let the stars lead your way
         </Button>

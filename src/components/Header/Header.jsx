@@ -12,9 +12,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 
-export const Header = () => {
+export const Header = ({ onScrollToForm }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(false);
+    onScrollToForm();
+  };
 
   return (
     <>
@@ -91,6 +95,7 @@ export const Header = () => {
               borderRadius: "100px",
             }}
             className="font-500"
+            onClick={onScrollToForm}
           >
             Book Now
           </Button>
@@ -202,6 +207,7 @@ export const Header = () => {
           </Box>
           <Box sx={{ mt: 5, px: 4 }}>
             <Button
+              onClick={handleClick}
               fullWidth
               sx={{
                 textTransform: "none",

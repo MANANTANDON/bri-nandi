@@ -48,7 +48,7 @@ export const CardsContainer = () => {
               pt: 2,
               pb: 4,
               position: "relative",
-              backgroundColor: "#181818",
+              bgcolor: "#181818",
               overflow: "hidden",
               backgroundImage:
                 "linear-gradient(to bottom right, #18181820, #F0874410)",
