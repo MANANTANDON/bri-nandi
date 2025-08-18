@@ -19,12 +19,6 @@ export const Footer = () => {
                   />
                 </a>
               </Box>
-              <Typography
-                className="font-400"
-                sx={{ fontSize: "14px", color: "#F8f8F8" }}
-              >
-                Powered By © Snowchild Studios
-              </Typography>
             </Grid>
             <Grid
               item
@@ -33,7 +27,7 @@ export const Footer = () => {
                 mt: { xs: 5, md: 0 },
                 display: "flex",
                 flexDirection: { xs: "column", md: "row-reverse" },
-                gap: 2,
+                gap: { xs: 1, md: 2 },
               }}
             >
               <Typography
@@ -54,6 +48,14 @@ export const Footer = () => {
               </Typography>
             </Grid>
           </Grid>
+          <Box sx={{ mt: { xs: 4, md: 1 } }}>
+            <Typography
+              className="font-400"
+              sx={{ fontSize: "14px", color: "#F8f8F8" }}
+            >
+              Powered By © Snowchild Studios
+            </Typography>
+          </Box>
         </Container>
       </Box>
     </>

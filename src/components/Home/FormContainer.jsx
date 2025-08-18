@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
 import {
-  TextField,
   Button,
   Box,
   Typography,
-  Paper,
   Container,
   Grid,
   InputBase,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import Image from "next/image";
 
@@ -16,20 +16,149 @@ export const FormContainer = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    age: "",
+    phone: "",
     dob: "",
   });
 
   const [loading, setLoading] = useState(false);
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    dob: "",
+  });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // For phone number, only allow digits and limit to 10 characters
+    if (name === "phone") {
+      const numericValue = value.replace(/\D/g, "").slice(0, 10);
+      setFormData({ ...formData, [name]: numericValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Name validation (only letters and spaces)
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (!nameRegex.test(formData.name.trim())) {
+      newErrors.name = "Name can only contain letters and spaces";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters long";
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    // Phone validation (exactly 10 digits)
+    const phoneRegex = /^\d{10}$/;
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(formData.phone.trim())) {
+      newErrors.phone = "Phone number must be exactly 10 digits";
+    }
+
+    // DOB validation
+    if (!formData.dob) {
+      newErrors.dob = "Date of birth is required";
+    } else {
+      const dobDate = new Date(formData.dob);
+      const today = new Date();
+      const age = today.getFullYear() - dobDate.getFullYear();
+
+      if (dobDate > today) {
+        newErrors.dob = "Date of birth cannot be in the future";
+      } else if (age > 120) {
+        newErrors.dob = "Please enter a valid date of birth";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form before submission
+    if (!validateForm()) {
+      setNotification({
+        open: true,
+        message: "Please correct the errors in the form",
+        severity: "error",
+      });
+      return;
+    }
+
     setLoading(true);
-    setLoading(false);
+
+    try {
+      const response = await fetch("/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setNotification({
+          open: true,
+          message: "Appointment request sent successfully!",
+          severity: "success",
+        });
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          dob: "",
+        });
+      } else {
+        setNotification({
+          open: true,
+          message: "Failed to send request. Please try again.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setNotification({
+        open: true,
+        message: "An error occurred. Please try again.",
+        severity: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ ...notification, open: false });
   };
 
   return (
@@ -165,6 +294,8 @@ export const FormContainer = () => {
           }}
         >
           <Box
+            component="form"
+            onSubmit={handleSubmit}
             sx={{
               border: "2px solid white",
               width: { xs: "100%", md: "900px" },
@@ -196,11 +327,15 @@ export const FormContainer = () => {
                 </Typography>
                 <InputBase
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   fullWidth
                   placeholder="Your Name..."
                   className="font-500"
+                  required
                   sx={{
-                    border: "1px solid #343434",
+                    border: `1px solid ${errors.name ? "#f44336" : "#343434"}`,
                     borderRadius: "10px",
                     bgcolor: "#181818",
                     color: "#f8f8f8",
@@ -210,6 +345,18 @@ export const FormContainer = () => {
                     mt: 0.7,
                   }}
                 />
+                {errors.name && (
+                  <Typography
+                    sx={{
+                      color: "#f44336",
+                      fontSize: "12px",
+                      mt: 0.5,
+                      ml: 1,
+                    }}
+                  >
+                    {errors.name}
+                  </Typography>
+                )}
               </Grid>
               <Grid item size={{ xs: 12, md: 6 }} sx={{ pl: { xs: 0, md: 1 } }}>
                 <Typography
@@ -221,11 +368,15 @@ export const FormContainer = () => {
                 </Typography>
                 <InputBase
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   fullWidth
                   className="font-500"
                   placeholder="Your Email..."
+                  required
                   sx={{
-                    border: "1px solid #343434",
+                    border: `1px solid ${errors.email ? "#f44336" : "#343434"}`,
                     borderRadius: "10px",
                     bgcolor: "#181818",
                     color: "#f8f8f8",
@@ -235,6 +386,18 @@ export const FormContainer = () => {
                     mt: 0.7,
                   }}
                 />
+                {errors.email && (
+                  <Typography
+                    sx={{
+                      color: "#f44336",
+                      fontSize: "12px",
+                      mt: 0.5,
+                      ml: 1,
+                    }}
+                  >
+                    {errors.email}
+                  </Typography>
+                )}
               </Grid>
               <Grid item size={{ xs: 12, md: 6 }} sx={{ pr: { xs: 0, md: 1 } }}>
                 <Typography
@@ -246,11 +409,19 @@ export const FormContainer = () => {
                 </Typography>
                 <InputBase
                   type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   fullWidth
                   className="font-500"
                   placeholder="Your Phone..."
+                  required
+                  inputProps={{
+                    maxLength: 10,
+                    pattern: "[0-9]*",
+                  }}
                   sx={{
-                    border: "1px solid #343434",
+                    border: `1px solid ${errors.phone ? "#f44336" : "#343434"}`,
                     borderRadius: "10px",
                     bgcolor: "#181818",
                     color: "#f8f8f8",
@@ -260,6 +431,18 @@ export const FormContainer = () => {
                     mt: 0.7,
                   }}
                 />
+                {errors.phone && (
+                  <Typography
+                    sx={{
+                      color: "#f44336",
+                      fontSize: "12px",
+                      mt: 0.5,
+                      ml: 1,
+                    }}
+                  >
+                    {errors.phone}
+                  </Typography>
+                )}
               </Grid>
               <Grid item size={{ xs: 12, md: 6 }} sx={{ pl: { xs: 0, md: 1 } }}>
                 <Typography
@@ -271,11 +454,15 @@ export const FormContainer = () => {
                 </Typography>
                 <InputBase
                   type="date"
+                  name="dob"
+                  value={formData.dob}
+                  onChange={handleChange}
                   fullWidth
                   className="font-500"
                   placeholder="..."
+                  required
                   sx={{
-                    border: "1px solid #343434",
+                    border: `1px solid ${errors.dob ? "#f44336" : "#343434"}`,
                     borderRadius: "10px",
                     bgcolor: "#181818",
                     color: "#f8f8f8",
@@ -283,18 +470,31 @@ export const FormContainer = () => {
                     py: 0.7,
                     fontSize: "16px",
                     mt: 0.7,
-                    // Add this to make calendar icon white
                     '& input[type="date"]::-webkit-calendar-picker-indicator': {
                       filter: "invert(1)",
                       cursor: "pointer",
                     },
                   }}
                 />
+                {errors.dob && (
+                  <Typography
+                    sx={{
+                      color: "#f44336",
+                      fontSize: "12px",
+                      mt: 0.5,
+                      ml: 1,
+                    }}
+                  >
+                    {errors.dob}
+                  </Typography>
+                )}
               </Grid>
             </Grid>
             <Button
+              type="submit"
               className="font-600"
               fullWidth
+              disabled={loading}
               sx={{
                 textTransform: "none",
                 bgcolor: "#ef8644",
@@ -302,73 +502,34 @@ export const FormContainer = () => {
                 borderRadius: "50px",
                 mt: 5,
                 fontSize: "18px",
+                "&:hover": {
+                  bgcolor: "#d6743a",
+                },
+                "&:disabled": {
+                  bgcolor: "#666666",
+                  color: "#999999",
+                },
               }}
             >
-              Book Appointment
+              {loading ? "Sending..." : "Book Appointment"}
             </Button>
           </Box>
         </Box>
 
-        {/* <Paper elevation={3} sx={{ p: 4, width: 350, borderRadius: 3 }}>
-          <Typography variant="h5" mb={2} textAlign="center">
-            Contact Us
-          </Typography>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Age"
-              type="number"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-            />
-            <TextField
-              fullWidth
-              margin="normal"
-              label="Date of Birth"
-              type="date"
-              name="dob"
-              InputLabelProps={{ shrink: true }}
-              value={formData.dob}
-              onChange={handleChange}
-              required
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              fullWidth
-              disabled={loading}
-              sx={{
-                mt: 2,
-                bgcolor: "#f48643",
-                "&:hover": { bgcolor: "#e06f28" },
-              }}
-            >
-              {loading ? "Sending..." : "Book Now"}
-            </Button>
-          </form>
-        </Paper> */}
+        {/* Notification Snackbar */}
+        <Snackbar
+          open={notification.open}
+          autoHideDuration={6000}
+          onClose={handleCloseNotification}
+        >
+          <Alert
+            onClose={handleCloseNotification}
+            severity={notification.severity}
+            sx={{ width: "100%" }}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
       </Container>
     </Box>
   );
