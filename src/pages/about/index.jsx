@@ -55,7 +55,7 @@ const About = () => {
                 className="font-700"
                 sx={{
                   color: "#FFFFFF",
-                  fontSize: { xs: "2rem", md: "3rem" },
+                  fontSize: { xs: "1.5rem", md: "3rem" },
                   marginBottom: "1.5rem",
                   textShadow: "2px 2px 4px rgba(0,0,0,0.3)",
                   lineHeight: "1.2",

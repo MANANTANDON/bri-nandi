@@ -14,14 +14,14 @@ export const CardsContainer = () => {
     },
     {
       zodiac_sign: "/images/zodiac/leo.svg",
-      logo: "/chartwheel.svg",
+      logo: "/images/orion.png",
       title: "Career Consultation",
       content:
         "Professional Career Roadmap Analysis - Comprehensive Vedic Career Blueprint",
     },
     {
       zodiac_sign: "/images/zodiac/scorpio.svg",
-      logo: "/chartwheel.svg",
+      logo: "/images/heart.png",
       title: "Relationship Reading",
       content:
         "Sacred Union Analysis - Complete Vedic Compatibility & Relationship Harmony Reading",
@@ -90,7 +90,16 @@ export const CardsContainer = () => {
             </Typography>
             <Typography
               className="font-500"
-              sx={{ color: "#AEA19A", fontSize: "18px", my: 2 }}
+              sx={{
+                color: "#AEA19A",
+                fontSize: "18px",
+                my: 2,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: "2",
+                WebkitBoxOrient: "vertical",
+              }}
             >
               {item.content}
             </Typography>
