@@ -6,19 +6,20 @@ import React from "react";
 export const CardsContainer = () => {
   const features = [
     {
-      zodiac_sign: "/images/zodiac/aries.svg",
-      logo: "/chartwheel.svg",
-      title: "Kundali Creation & Vedic Analysis",
-      content:
-        "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
-    },
-    {
       zodiac_sign: "/images/zodiac/leo.svg",
       logo: "/images/orion.png",
       title: "Career Consultation",
       content:
         "Professional Career Roadmap Analysis - Comprehensive Vedic Career Blueprint",
     },
+    {
+      zodiac_sign: "/images/zodiac/aries.svg",
+      logo: "/chartwheel.svg",
+      title: "Kundali Creation & Vedic Analysis",
+      content:
+        "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
+    },
+
     {
       zodiac_sign: "/images/zodiac/scorpio.svg",
       logo: "/images/heart.png",

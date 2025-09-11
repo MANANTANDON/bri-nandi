@@ -107,7 +107,7 @@ const About = () => {
               className="font-600"
               style={{
                 color: "#f48643",
-                fontSize: "1.8rem",
+                fontSize: { xs: "1rem", md: "1.8rem" },
                 marginBottom: "1rem",
                 textAlign: "center",
               }}
