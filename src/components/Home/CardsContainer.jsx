@@ -8,20 +8,23 @@ export const CardsContainer = () => {
     {
       zodiac_sign: "/images/zodiac/aries.svg",
       logo: "/chartwheel.svg",
-      title: "Your Birth Chart",
-      content: "Create Your Birth Chart and discover planetary insights.",
+      title: "Kundali Creation & Vedic Analysis",
+      content:
+        "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
     },
     {
       zodiac_sign: "/images/zodiac/leo.svg",
       logo: "/chartwheel.svg",
-      title: "Daily Horoscopes",
-      content: "Personalised daily, weekly, and montly horoscopes just you.",
+      title: "Career Consultation",
+      content:
+        "Professional Career Roadmap Analysis - Comprehensive Vedic Career Blueprint",
     },
     {
       zodiac_sign: "/images/zodiac/scorpio.svg",
       logo: "/chartwheel.svg",
-      title: "Realtionship Insights",
-      content: "Discover your relationship the compatibility with astrology.",
+      title: "Relationship Reading",
+      content:
+        "Sacred Union Analysis - Complete Vedic Compatibility & Relationship Harmony Reading",
     },
   ];
   return (

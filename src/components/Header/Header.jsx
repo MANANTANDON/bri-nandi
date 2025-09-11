@@ -17,7 +17,9 @@ export const Header = ({ onScrollToForm }) => {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(false);
-    onScrollToForm();
+
+    if (router.pathname === "/about") router.push("/");
+    else onScrollToForm();
   };
 
   return (
@@ -95,7 +97,7 @@ export const Header = ({ onScrollToForm }) => {
               borderRadius: "100px",
             }}
             className="font-500"
-            onClick={onScrollToForm}
+            onClick={handleClick}
           >
             Book Now
           </Button>

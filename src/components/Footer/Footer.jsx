@@ -53,7 +53,7 @@ export const Footer = () => {
               className="font-400"
               sx={{ fontSize: "14px", color: "#F8f8F8" }}
             >
-              Powered By © Snowchild Studios
+              Powered By © Snowchild Studio
             </Typography>
           </Box>
         </Container>
