@@ -181,14 +181,14 @@ const About = () => {
             {/* Sacred Journey Section */}
             <Grid
               container
-              gap={{ xs: "30px", md: 2 }}
+              gap={{ xs: "30px" }}
               sx={{
                 marginBottom: "3rem",
               }}
             >
               <Grid
                 item
-                size={{ xs: 12, md: 5.9 }}
+                size={{ xs: 12 }}
                 sx={{
                   background:
                     "linear-gradient(to bottom right, #18181820, #F0874410)",
@@ -270,7 +270,7 @@ const About = () => {
 
               <Grid
                 item
-                size={{ xs: 12, md: 5.9 }}
+                size={{ xs: 12 }}
                 sx={{
                   background:
                     "linear-gradient(to bottom right, #18181820, #F0874410)",
@@ -302,39 +302,6 @@ const About = () => {
                   </h3>
                 </div>
 
-                <div
-                  style={{
-                    padding: "1.5rem",
-                    marginBottom: "1.5rem",
-                    background: "rgba(244,134,67,0.1)",
-                    border: "1.5px solid #343434",
-                    borderRadius: "12px",
-                  }}
-                >
-                  <p
-                    className="font-500"
-                    style={{
-                      color: "#e8e8e8",
-                      fontStyle: "italic",
-                      marginBottom: "0.5rem",
-                      fontSize: "0.95rem",
-                    }}
-                  >
-                    "सर्वस्य चाहं हृदि सन्निविष्टो मत्तः स्मृतिर्ज्ञानमपोहनं च।"
-                  </p>
-                  <p
-                    className="font-400"
-                    style={{
-                      color: "#f48643",
-                      fontSize: "0.85rem",
-                      margin: "0",
-                    }}
-                  >
-                    - I am seated in the hearts of all; from Me come memory,
-                    knowledge, and understanding.
-                  </p>
-                </div>
-
                 <p
                   className="font-400"
                   style={{
@@ -343,9 +310,9 @@ const About = () => {
                     margin: "0",
                   }}
                 >
-                  Every consultation channels this divine knowledge. My mission
-                  is empowering you with cosmic guidance that transcends mere
-                  prediction to touch the essence of your dharmic purpose.
+                  My mission is empowering you with cosmic guidance that
+                  transcends mere prediction to touch the essence of your
+                  dharmic purpose.
                 </p>
               </Grid>
             </Grid>
@@ -361,7 +328,7 @@ const About = () => {
                   fontSize: "2.2rem",
                 }}
               >
-                Sacred Services
+                Services
               </h2>
 
               <div
