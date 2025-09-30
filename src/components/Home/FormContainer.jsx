@@ -6,11 +6,15 @@ import {
   Typography,
   Container,
   Grid,
-  InputBase,
   Alert,
   Snackbar,
+  Select,
+  MenuItem,
+  FormHelperText,
 } from "@mui/material";
 import Image from "next/image";
+import { CustomInputBase } from "../FormControl/CustomInputBase";
+import { FEATURES } from "@/constant"; // Adjust path as needed
 
 export const FormContainer = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +22,9 @@ export const FormContainer = () => {
     email: "",
     phone: "",
     dob: "",
+    pob: "",
+    tob: "",
+    service: "", // This will now hold the service OBJECT or empty string
   });
 
   const [loading, setLoading] = useState(false);
@@ -32,17 +39,33 @@ export const FormContainer = () => {
     email: "",
     phone: "",
     dob: "",
+    pob: "",
+    tob: "",
+    service: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue = value;
+
+    // ⭐ FIX: Parse the JSON string from MenuItem back into an object for 'service' field
+    if (name === "service" && typeof value === "string" && value !== "") {
+      try {
+        newValue = JSON.parse(value);
+      } catch (error) {
+        console.error("Error parsing service JSON:", error);
+        newValue = ""; // Reset or handle error gracefully
+      }
+    }
+    // ⭐ END FIX
 
     // For phone number, only allow digits and limit to 10 characters
     if (name === "phone") {
       const numericValue = value.replace(/\D/g, "").slice(0, 10);
       setFormData({ ...formData, [name]: numericValue });
     } else {
-      setFormData({ ...formData, [name]: value });
+      // Use the parsed object (or original value for other fields)
+      setFormData({ ...formData, [name]: newValue });
     }
 
     // Clear error when user starts typing
@@ -95,6 +118,27 @@ export const FormContainer = () => {
       }
     }
 
+    // Place of Birth validation
+    if (!formData.pob.trim()) {
+      newErrors.pob = "Place of birth is required";
+    } else if (formData.pob.trim().length < 2) {
+      newErrors.pob = "Place of birth must be at least 2 characters long";
+    }
+
+    // Time of Birth validation
+    if (!formData.tob) {
+      newErrors.tob = "Time of birth is required";
+    }
+
+    // Service validation - now checks if it's an object with a title property
+    if (
+      !formData.service ||
+      typeof formData.service !== "object" ||
+      !formData.service.title
+    ) {
+      newErrors.service = "Please select a service";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -115,6 +159,7 @@ export const FormContainer = () => {
     setLoading(true);
 
     try {
+      // The API is now robust, but to ensure consistency, we send the entire formData which includes the 'service' object.
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
@@ -137,11 +182,15 @@ export const FormContainer = () => {
           email: "",
           phone: "",
           dob: "",
+          pob: "",
+          tob: "",
+          service: "",
         });
       } else {
         setNotification({
           open: true,
-          message: "Failed to send request. Please try again.",
+          message:
+            result.message || "Failed to send request. Please try again.",
           severity: "error",
         });
       }
@@ -317,176 +366,155 @@ export const FormContainer = () => {
               Discover what the stars have in store for your journey
             </Typography>
             <Grid container rowGap={2}>
-              <Grid item size={{ xs: 12, md: 6 }} sx={{ pr: { xs: 0, md: 1 } }}>
+              <CustomInputBase
+                label="Name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Your Name..."
+                error={errors.name}
+              />
+
+              <CustomInputBase
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email..."
+                error={errors.email}
+                paddingLeft={true}
+              />
+
+              <CustomInputBase
+                label="Phone"
+                name="phone"
+                type="text"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Your Phone..."
+                error={errors.phone}
+                inputProps={{
+                  maxLength: 10,
+                  pattern: "[0-9]*",
+                }}
+              />
+
+              <CustomInputBase
+                label="DOB"
+                name="dob"
+                type="date"
+                value={formData.dob}
+                onChange={handleChange}
+                placeholder="..."
+                error={errors.dob}
+                paddingLeft={true}
+              />
+
+              <CustomInputBase
+                label="Place of Birth"
+                name="pob"
+                type="text"
+                value={formData.pob}
+                onChange={handleChange}
+                placeholder="Place of Birth..."
+                error={errors.pob}
+              />
+
+              <CustomInputBase
+                label="Time of Birth"
+                name="tob"
+                type="time"
+                value={formData.tob}
+                onChange={handleChange}
+                placeholder="..."
+                error={errors.tob}
+                paddingLeft={true}
+              />
+
+              {/* Service Selection Field - MUI Select */}
+              <Grid item size={12}>
                 <Typography
-                  sx={{ color: "#FFFFFF" }}
-                  fontSize={"16px"}
-                  className="font-500"
-                >
-                  Name
-                </Typography>
-                <InputBase
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  fullWidth
-                  placeholder="Your Name..."
-                  className="font-500"
-                  required
                   sx={{
-                    border: `1px solid ${errors.name ? "#f44336" : "#343434"}`,
-                    borderRadius: "10px",
-                    bgcolor: "#181818",
-                    color: "#f8f8f8",
-                    px: 1.5,
-                    py: 0.7,
-                    fontSize: "16px",
-                    mt: 0.7,
+                    color: "#F8F8F8",
+                    fontSize: "14px",
+                    mb: 1,
                   }}
-                />
-                {errors.name && (
-                  <Typography
-                    sx={{
-                      color: "#f44336",
-                      fontSize: "12px",
-                      mt: 0.5,
-                      ml: 1,
-                    }}
-                  >
-                    {errors.name}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item size={{ xs: 12, md: 6 }} sx={{ pl: { xs: 0, md: 1 } }}>
-                <Typography
-                  sx={{ color: "#FFFFFF" }}
-                  fontSize={"16px"}
-                  className="font-500"
                 >
-                  Email
+                  Select Service *
                 </Typography>
-                <InputBase
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                <Select
                   fullWidth
-                  className="font-500"
-                  placeholder="Your Email..."
-                  required
-                  sx={{
-                    border: `1px solid ${errors.email ? "#f44336" : "#343434"}`,
-                    borderRadius: "10px",
-                    bgcolor: "#181818",
-                    color: "#f8f8f8",
-                    px: 1.5,
-                    py: 0.7,
-                    fontSize: "16px",
-                    mt: 0.7,
-                  }}
-                />
-                {errors.email && (
-                  <Typography
-                    sx={{
-                      color: "#f44336",
-                      fontSize: "12px",
-                      mt: 0.5,
-                      ml: 1,
-                    }}
-                  >
-                    {errors.email}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item size={{ xs: 12, md: 6 }} sx={{ pr: { xs: 0, md: 1 } }}>
-                <Typography
-                  sx={{ color: "#FFFFFF" }}
-                  fontSize={"16px"}
-                  className="font-500"
-                >
-                  Phone
-                </Typography>
-                <InputBase
-                  type="text"
-                  name="phone"
-                  value={formData.phone}
+                  size="small"
+                  name="service"
+                  // Pass the stringified object for comparison in value, or use a unique ID if you refactor.
+                  // Since formData.service is an object, but MenuItem values are strings, we stringify
+                  // formData.service to match the MenuItem values for the Select component to work.
+                  value={
+                    formData.service ? JSON.stringify(formData.service) : ""
+                  }
                   onChange={handleChange}
-                  fullWidth
-                  className="font-500"
-                  placeholder="Your Phone..."
-                  required
-                  inputProps={{
-                    maxLength: 10,
-                    pattern: "[0-9]*",
-                  }}
+                  displayEmpty
                   sx={{
-                    border: `1px solid ${errors.phone ? "#f44336" : "#343434"}`,
-                    borderRadius: "10px",
-                    bgcolor: "#181818",
-                    color: "#f8f8f8",
-                    px: 1.5,
-                    py: 0.7,
-                    fontSize: "16px",
-                    mt: 0.7,
-                  }}
-                />
-                {errors.phone && (
-                  <Typography
-                    sx={{
-                      color: "#f44336",
-                      fontSize: "12px",
-                      mt: 0.5,
-                      ml: 1,
-                    }}
-                  >
-                    {errors.phone}
-                  </Typography>
-                )}
-              </Grid>
-              <Grid item size={{ xs: 12, md: 6 }} sx={{ pl: { xs: 0, md: 1 } }}>
-                <Typography
-                  sx={{ color: "#FFFFFF" }}
-                  fontSize={"16px"}
-                  className="font-500"
-                >
-                  DOB
-                </Typography>
-                <InputBase
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  fullWidth
-                  className="font-500"
-                  placeholder="..."
-                  required
-                  sx={{
-                    border: `1px solid ${errors.dob ? "#f44336" : "#343434"}`,
-                    borderRadius: "10px",
-                    bgcolor: "#181818",
-                    color: "#f8f8f8",
-                    px: 1.5,
-                    py: 0.7,
-                    fontSize: "16px",
-                    mt: 0.7,
-                    '& input[type="date"]::-webkit-calendar-picker-indicator': {
-                      filter: "invert(1)",
-                      cursor: "pointer",
+                    bgcolor: "#1f1f1f",
+                    color: formData.service ? "#FFFFFF" : "#888888",
+                    border: errors.service
+                      ? "1px solid #f44336"
+                      : "1px solid #343434",
+                    borderRadius: "8px",
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
+                    "&:hover .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
+                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
+                    "&.Mui-focused": {
+                      border: "1px solid #ef8644",
+                    },
+                    "& .MuiSelect-icon": {
+                      color: "#FFFFFF",
                     },
                   }}
-                />
-                {errors.dob && (
-                  <Typography
-                    sx={{
-                      color: "#f44336",
-                      fontSize: "12px",
-                      mt: 0.5,
-                      ml: 1,
-                    }}
-                  >
-                    {errors.dob}
-                  </Typography>
+                  MenuProps={{
+                    PaperProps: {
+                      sx: {
+                        bgcolor: "#1f1f1f",
+                        border: "1px solid #343434",
+                        "& .MuiMenuItem-root": {
+                          color: "#FFFFFF",
+                          "&:hover": {
+                            bgcolor: "#2a2a2a",
+                          },
+                          "&.Mui-selected": {
+                            bgcolor: "#ef8644",
+                            "&:hover": {
+                              bgcolor: "#d6743a",
+                            },
+                          },
+                        },
+                      },
+                    },
+                  }}
+                >
+                  <MenuItem value="">
+                    <Typography sx={{ color: "#FFFFFF" }}>
+                      Select a service...
+                    </Typography>
+                  </MenuItem>
+                  {FEATURES.map((feature, index) => (
+                    <MenuItem key={index} value={JSON.stringify(feature)}>
+                      {feature.title} - ₹{feature.price}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.service && (
+                  <FormHelperText sx={{ color: "#f44336", ml: 1 }}>
+                    {errors.service}
+                  </FormHelperText>
                 )}
               </Grid>
             </Grid>
@@ -516,11 +544,12 @@ export const FormContainer = () => {
           </Box>
         </Box>
 
-        {/* Notification Snackbar */}
+        {/* Notification Snackbar - Positioned at top center */}
         <Snackbar
           open={notification.open}
           autoHideDuration={6000}
           onClose={handleCloseNotification}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <Alert
             onClose={handleCloseNotification}

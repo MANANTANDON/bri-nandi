@@ -1,33 +1,10 @@
+import { FEATURES } from "@/constant";
 import { ArrowForwardRounded } from "@mui/icons-material";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
 export const CardsContainer = () => {
-  const features = [
-    {
-      zodiac_sign: "/images/zodiac/leo.svg",
-      logo: "/images/orion.png",
-      title: "Career Consultation",
-      content:
-        "Professional Career Roadmap Analysis - Comprehensive Vedic Career Blueprint",
-    },
-    {
-      zodiac_sign: "/images/zodiac/aries.svg",
-      logo: "/chartwheel.svg",
-      title: "Kundali Creation & Vedic Analysis",
-      content:
-        "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
-    },
-
-    {
-      zodiac_sign: "/images/zodiac/scorpio.svg",
-      logo: "/images/heart.png",
-      title: "Relationship Reading",
-      content:
-        "Sacred Union Analysis - Complete Vedic Compatibility & Relationship Harmony Reading",
-    },
-  ];
   return (
     <>
       <Box
@@ -40,7 +17,7 @@ export const CardsContainer = () => {
           gap: 3,
         }}
       >
-        {features.map((item, key) => (
+        {FEATURES.map((item, key) => (
           <Box
             key={key}
             sx={{
