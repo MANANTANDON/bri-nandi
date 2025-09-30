@@ -27,32 +27,8 @@ export default async function handler(req, res) {
   try {
     let { name, email, phone, dob, pob, tob, service } = req.body; // Changed 'const' to 'let' for service
 
-    // ⭐ FIX: Attempt to parse the service object if it's a JSON string
-    if (typeof service === "string" && service.length > 0) {
-      try {
-        service = JSON.parse(service);
-      } catch (e) {
-        console.error("Failed to parse service JSON string:", e);
-        return res.status(400).json({
-          success: false,
-          message:
-            "Invalid service data format: Service data must be a valid JSON object.",
-        });
-      }
-    }
-    // ⭐ END FIX
-
     // Validate required fields (including checking for an essential property on the service object)
-    if (
-      !name ||
-      !email ||
-      !phone ||
-      !dob ||
-      !pob ||
-      !tob ||
-      !service ||
-      !service.title
-    ) {
+    if (!name || !email || !phone || !dob || !pob || !tob || !service) {
       return res.status(400).json({
         success: false,
         message: "All fields are required and selected service must be valid",
@@ -83,7 +59,7 @@ export default async function handler(req, res) {
       from: `"${name} via Astrology Contact Form" <${email}>`,
       to: process.env.RECIPIENT_EMAIL,
       replyTo: email,
-      subject: `New ${service.title} Appointment from ${name} - ID: ${customerId}`,
+      subject: `New ${service} Appointment from ${name} - ID: ${customerId}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -175,9 +151,7 @@ export default async function handler(req, res) {
             </div>
 
             <div class="service-box">
-              <div class="service-title">${service.title}</div>
-              <div class="service-details">${service.duration}</div>
-              <div class="service-price">₹${service.price}</div>
+              <div class="service-title">${service}</div>
             </div>
             
             <div class="info-row">

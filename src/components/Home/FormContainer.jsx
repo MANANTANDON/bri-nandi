@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { CustomInputBase } from "../FormControl/CustomInputBase";
-import { FEATURES } from "@/constant"; // Adjust path as needed
+import { FEATURES } from "@/constant";
 
 export const FormContainer = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ export const FormContainer = () => {
     dob: "",
     pob: "",
     tob: "",
-    service: "", // This will now hold the service OBJECT or empty string
+    service: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -48,16 +48,14 @@ export const FormContainer = () => {
     const { name, value } = e.target;
     let newValue = value;
 
-    // ⭐ FIX: Parse the JSON string from MenuItem back into an object for 'service' field
-    if (name === "service" && typeof value === "string" && value !== "") {
+    if (name === "service" && value !== "") {
       try {
-        newValue = JSON.parse(value);
+        newValue = value;
       } catch (error) {
         console.error("Error parsing service JSON:", error);
-        newValue = ""; // Reset or handle error gracefully
+        newValue = "";
       }
     }
-    // ⭐ END FIX
 
     // For phone number, only allow digits and limit to 10 characters
     if (name === "phone") {
@@ -68,7 +66,6 @@ export const FormContainer = () => {
       setFormData({ ...formData, [name]: newValue });
     }
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
@@ -131,11 +128,7 @@ export const FormContainer = () => {
     }
 
     // Service validation - now checks if it's an object with a title property
-    if (
-      !formData.service ||
-      typeof formData.service !== "object" ||
-      !formData.service.title
-    ) {
+    if (!formData.service) {
       newErrors.service = "Please select a service";
     }
 
@@ -402,7 +395,7 @@ export const FormContainer = () => {
               />
 
               <CustomInputBase
-                label="DOB"
+                label="Date of Birth"
                 name="dob"
                 type="date"
                 value={formData.dob}
@@ -442,18 +435,13 @@ export const FormContainer = () => {
                     mb: 1,
                   }}
                 >
-                  Select Service *
+                  Select Service
                 </Typography>
                 <Select
                   fullWidth
                   size="small"
                   name="service"
-                  // Pass the stringified object for comparison in value, or use a unique ID if you refactor.
-                  // Since formData.service is an object, but MenuItem values are strings, we stringify
-                  // formData.service to match the MenuItem values for the Select component to work.
-                  value={
-                    formData.service ? JSON.stringify(formData.service) : ""
-                  }
+                  value={formData.service}
                   onChange={handleChange}
                   displayEmpty
                   sx={{
@@ -506,7 +494,7 @@ export const FormContainer = () => {
                     </Typography>
                   </MenuItem>
                   {FEATURES.map((feature, index) => (
-                    <MenuItem key={index} value={JSON.stringify(feature)}>
+                    <MenuItem key={index} value={feature.title}>
                       {feature.title} - ₹{feature.price}
                     </MenuItem>
                   ))}
