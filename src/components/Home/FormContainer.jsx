@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Box,
@@ -16,7 +16,7 @@ import Image from "next/image";
 import { CustomInputBase } from "../FormControl/CustomInputBase";
 import { FEATURES } from "@/constant";
 
-export const FormContainer = () => {
+export const FormContainer = ({ serviceSelection }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,7 +24,7 @@ export const FormContainer = () => {
     dob: "",
     pob: "",
     tob: "",
-    service: "",
+    service: serviceSelection || "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -44,18 +44,19 @@ export const FormContainer = () => {
     service: "",
   });
 
+  // Update service field when serviceSelection prop changes
+  useEffect(() => {
+    if (serviceSelection) {
+      setFormData((prev) => ({
+        ...prev,
+        service: serviceSelection,
+      }));
+    }
+  }, [serviceSelection]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = value;
-
-    if (name === "service" && value !== "") {
-      try {
-        newValue = value;
-      } catch (error) {
-        console.error("Error parsing service JSON:", error);
-        newValue = "";
-      }
-    }
 
     // For phone number, only allow digits and limit to 10 characters
     if (name === "phone") {

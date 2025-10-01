@@ -1,10 +1,11 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { HeroCont } from "@/components/Home/HeroCont";
 import { FormContainer } from "@/components/Home/FormContainer";
 import { SecondContainer } from "@/components/Home/SecondContainer";
 import { Footer } from "@/components/Footer/Footer";
 
 export default function Home() {
+  const [serviceSelection, setServiceSelection] = useState("");
   const formRef = useRef(null);
 
   const scrollToForm = () => {
@@ -39,12 +40,16 @@ export default function Home() {
       requestAnimationFrame(step);
     }
   };
+
   return (
     <>
       <HeroCont onScrollToForm={scrollToForm} />
-      <SecondContainer />
+      <SecondContainer
+        onScrollToForm={scrollToForm}
+        setServiceSelection={setServiceSelection}
+      />
       <div ref={formRef}>
-        <FormContainer />
+        <FormContainer serviceSelection={serviceSelection} />
       </div>
       <Footer />
     </>

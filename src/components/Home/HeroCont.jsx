@@ -10,7 +10,6 @@ export const HeroCont = ({ onScrollToForm }) => {
   const [height, setHeight] = useState();
   useEffect(() => {
     setHeight(window.innerHeight);
-    console.log(window.innerHeight);
   }, [height]);
 
   return (

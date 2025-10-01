@@ -4,7 +4,11 @@ import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 
-export const CardsContainer = () => {
+export const CardsContainer = ({ onScrollToForm, setServiceSelection }) => {
+  const handleClick = (item) => {
+    setServiceSelection(item.title);
+    onScrollToForm();
+  };
   return (
     <>
       <Box
@@ -82,6 +86,7 @@ export const CardsContainer = () => {
               {item.content}
             </Typography>
             <Typography
+              onClick={() => handleClick(item)}
               sx={{
                 color: "#ef8644",
                 display: "flex",
@@ -90,8 +95,6 @@ export const CardsContainer = () => {
                 fontSize: "20px",
               }}
               className="font-500"
-              component={"a"}
-              href="/"
             >
               Explore now <ArrowForwardRounded fontSize="small" />
             </Typography>

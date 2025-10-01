@@ -2,7 +2,7 @@ import { Box, Container, Typography } from "@mui/material";
 import React from "react";
 import { CardsContainer } from "./CardsContainer";
 
-export const SecondContainer = () => {
+export const SecondContainer = ({ onScrollToForm, setServiceSelection }) => {
   return (
     <>
       <Box>
@@ -112,7 +112,10 @@ export const SecondContainer = () => {
               </Box>
             </Box>
             <Box sx={{ mt: 2, mb: 5 }}>
-              <CardsContainer />
+              <CardsContainer
+                onScrollToForm={onScrollToForm}
+                setServiceSelection={setServiceSelection}
+              />
             </Box>
           </Box>
         </Container>
