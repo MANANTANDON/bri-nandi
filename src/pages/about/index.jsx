@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout/Layout";
+import Head from "next/head";
 import React from "react";
 import {
   Star,
@@ -32,8 +33,122 @@ const About = () => {
     },
   ];
 
+  // =========================================================================
+  // 1. JSON-LD STRUCTURED DATA - Person/Astrologer
+  // =========================================================================
+  const personSchema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Brinandi Astrologer",
+    alumniOf: "PhD in Economics, Data Science Expert",
+    description:
+      "A Vedic Astrologer specializing in Bhrigu Nandi Nadi (BNN), combining modern data science precision with ancient spiritual wisdom to provide deep cosmic guidance.",
+    url: "https://www.brinandi.com/about",
+    sameAs: ["https://www.brinandi.com"],
+    jobTitle: "Vedic Astrologer and Cosmic Guide",
+    knowsAbout: [
+      "Vedic Astrology",
+      "Bhrigu Nandi Nadi",
+      "Career Astrology",
+      "Relationship Compatibility",
+      "Dharma",
+      "Devi Sadhana",
+    ],
+  };
+
+  // =========================================================================
+  // 2. JSON-LD STRUCTURED DATA - AboutPage
+  // =========================================================================
+  const aboutPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About Brinandi - Vedic Astrology & Bhrigu Nandi Nadi Specialist",
+    description:
+      "Learn about Brinandi's unique approach to Vedic Astrology, blending a PhD in Economics/Data Science background with the ancient wisdom of Bhrigu Nandi Nadi and dedicated Devi Sadhana for precise, dharmic guidance.",
+    url: "https://www.brinandi.com/about",
+    mainEntity: personSchema,
+    mentions: [
+      "Bhrigu Nandi Nadi Astrology",
+      "Devi Sadhana",
+      "Dharmic Mission",
+      "Career Clarity",
+    ],
+  };
+
   return (
     <>
+      <Head>
+        <link rel="icon" href="/icon.png" sizes="any" />
+        <link rel="apple-touch-icon" href="/icon.png" sizes="180x180" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/icon.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/icon.png" />
+
+        {/* Primary Meta Tags - Targeting Expertise and Mission */}
+        <title>
+          About Brinandi | Bhrigu Nandi Nadi (BNN) Astrology Specialist | PhD
+          Expert
+        </title>
+        <meta
+          name="title"
+          content="About Brinandi | Bhrigu Nandi Nadi (BNN) Astrology Specialist | PhD Expert"
+        />
+        <meta
+          name="description"
+          content="Discover the astrologer behind Brinandi: a PhD in Economics & data science professional who found their dharmic path in Bhrigu Nandi Nadi (BNN) Vedic astrology through dedicated Devi Sadhana. Learn about our sacred mission for precise cosmic guidance."
+        />
+        <meta
+          name="keywords"
+          content="about us, Brinandi, Bhrigu Nandi Nadi specialist, BNN astrology, Vedic astrologer, astrologer with PhD, data science astrology, Devi Sadhana, cosmic guidance, dharmic purpose, career path, spiritual journey, professional astrologer"
+        />
+        <meta name="author" content="Brinandi Astrology" />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href="https://www.brinandi.com/about" />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="https://www.brinandi.com/about" />
+        <meta
+          property="og:title"
+          content="About Brinandi | Bhrigu Nandi Nadi (BNN) Astrology Specialist | PhD Expert"
+        />
+        <meta
+          property="og:description"
+          content="Discover the unique blend of data science precision and Bhrigu Nandi Nadi wisdom at Brinandi. Read the astrologer's personal journey to provide you with expert cosmic guidance."
+        />
+        <meta property="og:image" content="https://www.brinandi.com/logo.png" />
+        <meta property="og:site_name" content="Brinandi Astrology" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://www.brinandi.com/about" />
+        <meta
+          name="twitter:title"
+          content="About Brinandi | Bhrigu Nandi Nadi (BNN) Astrology Specialist"
+        />
+        <meta
+          name="twitter:description"
+          content="PhD in Economics meets Vedic Astrology. Specializing in Bhrigu Nandi Nadi to offer precise, dharmic guidance. Learn the Brinandi story."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.brinandi.com/logo.png"
+        />
+
+        {/* Structured Data - Person (Astrologer) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+
+        {/* Structured Data - AboutPage */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageSchema) }}
+        />
+      </Head>
+
       <Layout>
         <div
           style={{
@@ -156,11 +271,11 @@ const About = () => {
                   fontSize: "1.1rem",
                 }}
               >
-                I am a PhD in Economics with expertise in data science,
+                I am a **PhD in Economics** with expertise in **data science**,
                 currently working with an MNC. I previously taught postgraduate
                 students and have found my true calling in the sacred science of
-                Vedic astrology—a passion ignited in childhood and nurtured
-                through years of Devi Sadhana.
+                **Vedic astrology**—a passion ignited in childhood and nurtured
+                through years of **Devi Sadhana**.
               </p>
 
               <span
@@ -229,10 +344,10 @@ const About = () => {
                   }}
                 >
                   What began as childhood fascination with celestial movements
-                  evolved into deep spiritual practice. Through dedicated Devi
-                  Sadhana, I discovered my dharmic path in Bhrigu Nandi Nadi
-                  Astrology—the ancient system that forms the foundation of this
-                  platform's name, "Bri-Nandi."
+                  evolved into deep spiritual practice. Through dedicated **Devi
+                  Sadhana**, I discovered my **dharmic path** in **Bhrigu Nandi
+                  Nadi Astrology**—the ancient system that forms the foundation
+                  of this platform's name, "Bri-Nandi."
                 </p>
 
                 <div
@@ -312,7 +427,7 @@ const About = () => {
                 >
                   My mission is empowering you with cosmic guidance that
                   transcends mere prediction to touch the essence of your
-                  dharmic purpose.
+                  **dharmic purpose**.
                 </p>
               </Grid>
             </Grid>
@@ -478,9 +593,9 @@ const About = () => {
               >
                 True astrology isn't fatalistic prediction—it's about complete
                 surrender to divine will and receiving cosmic guidance. Each
-                reading becomes a sacred space where ancient Vedic mathematics
-                meets divine grace, revealing your soul's journey with both
-                precision and compassion.
+                reading becomes a sacred space where ancient **Vedic
+                mathematics** meets **divine grace**, revealing your soul's
+                journey with both precision and compassion.
               </p>
 
               <div

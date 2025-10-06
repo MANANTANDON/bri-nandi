@@ -7,7 +7,6 @@ import {
   Container,
   Grid,
   Alert,
-  Snackbar,
   Select,
   MenuItem,
   FormHelperText,
@@ -29,7 +28,7 @@ export const FormContainer = ({ serviceSelection }) => {
 
   const [loading, setLoading] = useState(false);
   const [notification, setNotification] = useState({
-    open: false,
+    show: false,
     message: "",
     severity: "success",
   });
@@ -53,6 +52,22 @@ export const FormContainer = ({ serviceSelection }) => {
       }));
     }
   }, [serviceSelection]);
+
+  // --- START: Auto-Dismiss Alert Logic ---
+  useEffect(() => {
+    // Only set a timer if the notification is visible
+    if (notification.show) {
+      const timer = setTimeout(() => {
+        // Dismiss the alert
+        setNotification((prev) => ({ ...prev, show: false }));
+      }, 5000); // 5000 milliseconds = 5 seconds
+
+      // Cleanup function to clear the timer when the component unmounts
+      // or if notification.show changes before the timer finishes
+      return () => clearTimeout(timer);
+    }
+  }, [notification.show]); // Re-run effect whenever the alert's visibility changes
+  // --- END: Auto-Dismiss Alert Logic ---
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -143,7 +158,7 @@ export const FormContainer = ({ serviceSelection }) => {
     // Validate form before submission
     if (!validateForm()) {
       setNotification({
-        open: true,
+        show: true,
         message: "Please correct the errors in the form",
         severity: "error",
       });
@@ -151,6 +166,7 @@ export const FormContainer = ({ serviceSelection }) => {
     }
 
     setLoading(true);
+    setNotification({ show: false, message: "", severity: "success" });
 
     try {
       // The API is now robust, but to ensure consistency, we send the entire formData which includes the 'service' object.
@@ -166,8 +182,9 @@ export const FormContainer = ({ serviceSelection }) => {
 
       if (result.success) {
         setNotification({
-          open: true,
-          message: "Appointment request sent successfully!",
+          show: true,
+          message:
+            "Appointment request sent successfully! We will reach out to you within 24 hours.",
           severity: "success",
         });
         // Reset form
@@ -182,7 +199,7 @@ export const FormContainer = ({ serviceSelection }) => {
         });
       } else {
         setNotification({
-          open: true,
+          show: true,
           message:
             result.message || "Failed to send request. Please try again.",
           severity: "error",
@@ -191,17 +208,13 @@ export const FormContainer = ({ serviceSelection }) => {
     } catch (error) {
       console.error("Error:", error);
       setNotification({
-        open: true,
+        show: true,
         message: "An error occurred. Please try again.",
         severity: "error",
       });
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleCloseNotification = () => {
-    setNotification({ ...notification, open: false });
   };
 
   return (
@@ -530,24 +543,30 @@ export const FormContainer = ({ serviceSelection }) => {
             >
               {loading ? "Sending..." : "Book Appointment"}
             </Button>
+
+            {/* Notification Alert - Below Button */}
+            {notification.show && (
+              <Alert
+                severity={notification.severity}
+                sx={{
+                  mt: 2,
+                  bgcolor:
+                    notification.severity === "success" ? "#1b5e20" : "#d32f2f",
+                  color: "#FFFFFF",
+                  border: `1px solid ${
+                    notification.severity === "success" ? "#2e7d32" : "#f44336"
+                  }`,
+                  borderRadius: "8px",
+                  "& .MuiAlert-icon": {
+                    color: "#FFFFFF",
+                  },
+                }}
+              >
+                {notification.message}
+              </Alert>
+            )}
           </Box>
         </Box>
-
-        {/* Notification Snackbar - Positioned at top center */}
-        <Snackbar
-          open={notification.open}
-          autoHideDuration={6000}
-          onClose={handleCloseNotification}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert
-            onClose={handleCloseNotification}
-            severity={notification.severity}
-            sx={{ width: "100%" }}
-          >
-            {notification.message}
-          </Alert>
-        </Snackbar>
       </Container>
     </Box>
   );
