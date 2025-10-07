@@ -271,11 +271,11 @@ const About = () => {
                   fontSize: "1.1rem",
                 }}
               >
-                I am a **PhD in Economics** with expertise in **data science**,
-                currently working with an MNC. I previously taught postgraduate
-                students and have found my true calling in the sacred science of
-                **Vedic astrology**—a passion ignited in childhood and nurtured
-                through years of **Devi Sadhana**.
+                I am aPhD in Economic with expertise indata scienc, currently
+                working with an MNC. I previously taught postgraduate students
+                and have found my true calling in the sacred science of Vedic
+                astrolog—a passion ignited in childhood and nurtured through
+                years ofDevi Sadhan.
               </p>
 
               <span
@@ -344,10 +344,10 @@ const About = () => {
                   }}
                 >
                   What began as childhood fascination with celestial movements
-                  evolved into deep spiritual practice. Through dedicated **Devi
-                  Sadhana**, I discovered my **dharmic path** in **Bhrigu Nandi
-                  Nadi Astrology**—the ancient system that forms the foundation
-                  of this platform's name, "Bri-Nandi."
+                  evolved into deep spiritual practice. Through dedicated Devi
+                  Sadhana, I discovered my dharmic path in Bhrigu Nandi Nadi
+                  Astrology—the ancient system that forms the foundation of this
+                  platform's name, "Bri-Nandi."
                 </p>
 
                 <div
@@ -427,7 +427,7 @@ const About = () => {
                 >
                   My mission is empowering you with cosmic guidance that
                   transcends mere prediction to touch the essence of your
-                  **dharmic purpose**.
+                  dharmic purpose.
                 </p>
               </Grid>
             </Grid>
@@ -593,9 +593,9 @@ const About = () => {
               >
                 True astrology isn't fatalistic prediction—it's about complete
                 surrender to divine will and receiving cosmic guidance. Each
-                reading becomes a sacred space where ancient **Vedic
-                mathematics** meets **divine grace**, revealing your soul's
-                journey with both precision and compassion.
+                reading becomes a sacred space where ancient Vedic mathematics
+                meets divine grace, revealing your soul's journey with both
+                precision and compassion.
               </p>
 
               <div

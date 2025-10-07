@@ -191,10 +191,10 @@ const TermsAndConditions = () => {
                   Brinandi is an educational and consulting service that
                   provides spiritual and philosophical guidance based on
                   astrological principles. By law, we are required to state that
-                  all readings, consultations, and reports are for
-                  **entertainment purposes only**. The Service is **not a
-                  substitute for professional medical, psychological, legal, or
-                  financial advice**. The user is solely responsible for their
+                  all readings, consultations, and reports are for entertainment
+                  purposes only. The Service is not a substitute for
+                  professional medical, psychological, legal, or financial
+                  advice. The user is solely responsible for their
                   interpretation of the guidance and the subsequent actions
                   taken. Brinandi makes no guarantees, express or implied, about
                   the outcomes of any consultation.
@@ -216,20 +216,20 @@ const TermsAndConditions = () => {
                 className="font-400"
                 sx={{ lineHeight: "1.7", marginBottom: "1rem" }}
               >
-                **Accurate Information:** The efficacy of astrological analysis
-                is highly dependent on the accuracy of the birth details
-                provided. You warrant that all information you provide,
-                including name, date, time, and place of birth, is accurate and
-                correct. Brinandi is not responsible for inaccurate readings
-                resulting from incorrect data provided by the user.
+                Accurate Information: The efficacy of astrological analysis is
+                highly dependent on the accuracy of the birth details provided.
+                You warrant that all information you provide, including name,
+                date, time, and place of birth, is accurate and correct.
+                Brinandi is not responsible for inaccurate readings resulting
+                from incorrect data provided by the user.
               </Typography>
               <Typography
                 variant="body1"
                 className="font-400"
                 sx={{ lineHeight: "1.7", marginBottom: "2rem" }}
               >
-                **Prohibited Use:** You agree not to use the Service for any
-                purpose that is unlawful or prohibited by these Terms.
+                Prohibited Use: You agree not to use the Service for any purpose
+                that is unlawful or prohibited by these Terms.
               </Typography>
 
               <Divider
@@ -247,7 +247,7 @@ const TermsAndConditions = () => {
                 className="font-400"
                 sx={{ lineHeight: "1.7", marginBottom: "1rem" }}
               >
-                **Payment:** All services must be paid for in advance. Fees are
+                Payment: All services must be paid for in advance. Fees are
                 listed on the website and are subject to change without prior
                 notice.
               </Typography>
@@ -256,12 +256,12 @@ const TermsAndConditions = () => {
                 className="font-400"
                 sx={{ lineHeight: "1.7", marginBottom: "2rem" }}
               >
-                **Refund Policy:** Due to the personalized and time-intensive
-                nature of astrological chart preparation and analysis, **all
-                sales are final**. No refunds will be issued once the
-                consultation is booked and work on the chart has commenced, or
-                after the consultation is delivered. Reschedule requests may be
-                accommodated subject to availability.
+                Refund Policy: Due to the personalized and time-intensive nature
+                of astrological chart preparation and analysis, all sales are
+                final. No refunds will be issued once the consultation is booked
+                and work on the chart has commenced, or after the consultation
+                is delivered. Reschedule requests may be accommodated subject to
+                availability.
               </Typography>
 
               <Divider
@@ -307,29 +307,6 @@ const TermsAndConditions = () => {
                 has no control over, and assumes no responsibility for, the
                 content, privacy policies, or practices of any third-party web
                 sites or services.
-              </Typography>
-
-              <Divider
-                sx={{ background: "rgba(244,134,67,0.3)", margin: "2rem 0" }}
-              />
-
-              <Typography
-                variant="h6"
-                sx={{ color: accentColor, marginBottom: "1.5rem" }}
-              >
-                8. Governing Law and Jurisdiction
-              </Typography>
-              <Typography
-                variant="body1"
-                className="font-400"
-                sx={{ lineHeight: "1.7", marginBottom: "2rem" }}
-              >
-                These Terms shall be governed and construed in accordance with
-                the laws of **[Insert Your State/Country Here]**, without regard
-                to its conflict of law provisions. You agree to submit to the
-                exclusive jurisdiction of the courts located in **[Insert Your
-                City/Region Here]** to resolve any legal matter arising from
-                these Terms.
               </Typography>
 
               <Divider

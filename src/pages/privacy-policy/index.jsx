@@ -208,18 +208,18 @@ const PrivacyPolicy = () => {
                 }}
               >
                 <li>
-                  **Service Delivery:** Your **Birth Data** is used solely for
-                  the calculation, analysis, and preparation of your
-                  personalized Vedic Astrology (Bhrigu Nandi Nadi) chart and
-                  consultation report.
+                  Service Delivery: Your Birth Data is used solely for the
+                  calculation, analysis, and preparation of your personalized
+                  Vedic Astrology (Bhrigu Nandi Nadi) chart and consultation
+                  report.
                 </li>
                 <li>
-                  **Communication:** We use your email and phone number to
-                  confirm bookings, reschedule appointments, send consultation
-                  reports, and respond to your inquiries.
+                  Communication: We use your email and phone number to confirm
+                  bookings, reschedule appointments, send consultation reports,
+                  and respond to your inquiries.
                 </li>
                 <li>
-                  **Improvement:** Anonymized data may be used to improve the
+                  Improvement: Anonymized data may be used to improve the
                   accuracy and quality of our analytical models, always ensuring
                   personal identification is removed.
                 </li>
@@ -240,8 +240,8 @@ const PrivacyPolicy = () => {
                 className="font-400"
                 sx={{ lineHeight: "1.7", marginBottom: "2rem" }}
               >
-                **We will never sell, rent, or trade your Birth Data or personal
-                information to third parties for marketing purposes.**
+                We will never sell, rent, or trade your Birth Data or personal
+                information to third parties for marketing purposes.
               </Typography>
               <Typography
                 variant="body1"
@@ -260,15 +260,14 @@ const PrivacyPolicy = () => {
                 }}
               >
                 <li>
-                  **Service Providers:** We may use third-party tools for
-                  payment processing (e.g., Stripe, PayPal) and scheduling
-                  (e.g., Calendly). These services receive only the data
-                  required to perform their specific function.
+                  Service Providers: We may use third-party tools for payment
+                  processing (e.g., Stripe, PayPal) and scheduling (e.g.,
+                  Calendly). These services receive only the data required to
+                  perform their specific function.
                 </li>
                 <li>
-                  **Legal Obligations:** If required to do so by law or in
-                  response to valid requests by public authorities (e.g., a
-                  court order).
+                  Legal Obligations: If required to do so by law or in response
+                  to valid requests by public authorities (e.g., a court order).
                 </li>
               </Box>
 
@@ -291,8 +290,8 @@ const PrivacyPolicy = () => {
                 security measures, including encryption and secure storage, to
                 protect against unauthorized access, alteration, disclosure, or
                 destruction of your personal information, especially your
-                sensitive **Birth Data**. However, please remember that no
-                method of transmission over the Internet is 100% secure.
+                sensitive Birth Data. However, please remember that no method of
+                transmission over the Internet is 100% secure.
               </Typography>
 
               <Divider
@@ -376,7 +375,7 @@ const PrivacyPolicy = () => {
                 If you have any questions or concerns regarding this Privacy
                 Policy or your data, please contact us:
                 <br />
-                **Email:** [Insert Contact Email Address Here]
+                Email: <b>brinandi09@gmail.com</b>
               </Typography>
             </Box>
           </div>
