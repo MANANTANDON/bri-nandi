@@ -4,6 +4,7 @@ import { HeroCont } from "@/components/Home/HeroCont";
 import { FormContainer } from "@/components/Home/FormContainer";
 import { SecondContainer } from "@/components/Home/SecondContainer";
 import { Footer } from "@/components/Footer/Footer";
+import CalBri from "@/components/Home/CalBri";
 
 export default function Home() {
   const [serviceSelection, setServiceSelection] = useState("");

@@ -14,6 +14,7 @@ import {
 import Image from "next/image";
 import { CustomInputBase } from "../FormControl/CustomInputBase";
 import { FEATURES } from "@/constant";
+import CalBri from "./CalBri";
 
 export const FormContainer = ({ serviceSelection }) => {
   const [formData, setFormData] = useState({
@@ -341,7 +342,10 @@ export const FormContainer = ({ serviceSelection }) => {
             </Typography>
           </Box>
         </Box>
-        <Box
+        <Box sx={{ mt: 5 }}>
+          <CalBri />
+        </Box>
+        {/* <Box
           sx={{
             display: "flex",
             alignItems: "center",
@@ -440,7 +444,6 @@ export const FormContainer = ({ serviceSelection }) => {
                 paddingLeft={true}
               />
 
-              {/* Service Selection Field - MUI Select */}
               <Grid item size={12}>
                 <Typography
                   sx={{
@@ -544,7 +547,6 @@ export const FormContainer = ({ serviceSelection }) => {
               {loading ? "Sending..." : "Book Appointment"}
             </Button>
 
-            {/* Notification Alert - Below Button */}
             {notification.show && (
               <Alert
                 severity={notification.severity}
@@ -566,7 +568,7 @@ export const FormContainer = ({ serviceSelection }) => {
               </Alert>
             )}
           </Box>
-        </Box>
+        </Box> */}
       </Container>
     </Box>
   );

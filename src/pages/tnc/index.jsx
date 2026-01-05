@@ -2,8 +2,7 @@ import { Layout } from "@/components/Layout/Layout";
 import { Footer } from "@/components/Footer/Footer";
 import Head from "next/head";
 import React from "react";
-import { Typography, Grid, Divider, Box } from "@mui/material";
-import { Box as LucideBox, Target } from "lucide-react"; // Using Lucide Box for an icon
+import { Typography, Divider, Box } from "@mui/material";
 
 const TermsAndConditions = () => {
   // Use the orange accent color
