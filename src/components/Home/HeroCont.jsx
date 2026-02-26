@@ -55,23 +55,24 @@ export const HeroCont = ({ onScrollToForm }) => {
           justifyContent: "center",
           color: "#f48643",
         }}
-        className="chartSpin"
       >
-        <Box
-          sx={{
-            position: "relative",
-            height: { xs: "700px", md: "1000px" },
-            width: { xs: "700px", md: "1000px" },
-            overflow: "hidden",
-            opacity: 0.3,
-          }}
-        >
-          <Image
-            src={"/chartwheel.svg"}
-            layout="fill"
-            objectFit="cover"
-            objectPosition="center"
-          />
+        <Box className="chartSpin">
+          <Box
+            sx={{
+              position: "relative",
+              height: { xs: "700px", md: "1000px" },
+              width: { xs: "700px", md: "1000px" },
+              overflow: "hidden",
+              opacity: 0.3,
+            }}
+          >
+            <Image
+              src="/chartwheel.svg"
+              fill
+              style={{ objectFit: "cover" }}
+              alt=""
+            />
+          </Box>
         </Box>
       </Box>
       <div

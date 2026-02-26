@@ -14,9 +14,11 @@ import {
 import Image from "next/image";
 import { CustomInputBase } from "../FormControl/CustomInputBase";
 import { FEATURES } from "@/constant";
-import CalBri from "./CalBri";
+import { CalModal } from "../Modal/CalModal";
 
 export const FormContainer = ({ serviceSelection }) => {
+  const [openCalModal, setOpenCalModal] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -44,7 +46,6 @@ export const FormContainer = ({ serviceSelection }) => {
     service: "",
   });
 
-  // Update service field when serviceSelection prop changes
   useEffect(() => {
     if (serviceSelection) {
       setFormData((prev) => ({
@@ -54,32 +55,23 @@ export const FormContainer = ({ serviceSelection }) => {
     }
   }, [serviceSelection]);
 
-  // --- START: Auto-Dismiss Alert Logic ---
   useEffect(() => {
-    // Only set a timer if the notification is visible
     if (notification.show) {
       const timer = setTimeout(() => {
-        // Dismiss the alert
         setNotification((prev) => ({ ...prev, show: false }));
-      }, 5000); // 5000 milliseconds = 5 seconds
-
-      // Cleanup function to clear the timer when the component unmounts
-      // or if notification.show changes before the timer finishes
+      }, 5000);
       return () => clearTimeout(timer);
     }
-  }, [notification.show]); // Re-run effect whenever the alert's visibility changes
-  // --- END: Auto-Dismiss Alert Logic ---
+  }, [notification.show]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = value;
 
-    // For phone number, only allow digits and limit to 10 characters
     if (name === "phone") {
       const numericValue = value.replace(/\D/g, "").slice(0, 10);
       setFormData({ ...formData, [name]: numericValue });
     } else {
-      // Use the parsed object (or original value for other fields)
       setFormData({ ...formData, [name]: newValue });
     }
 
@@ -91,7 +83,6 @@ export const FormContainer = ({ serviceSelection }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    // Name validation (only letters and spaces)
     const nameRegex = /^[a-zA-Z\s]+$/;
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -101,7 +92,6 @@ export const FormContainer = ({ serviceSelection }) => {
       newErrors.name = "Name must be at least 2 characters long";
     }
 
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
@@ -109,7 +99,6 @@ export const FormContainer = ({ serviceSelection }) => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Phone validation (exactly 10 digits)
     const phoneRegex = /^\d{10}$/;
     if (!formData.phone.trim()) {
       newErrors.phone = "Phone number is required";
@@ -117,7 +106,6 @@ export const FormContainer = ({ serviceSelection }) => {
       newErrors.phone = "Phone number must be exactly 10 digits";
     }
 
-    // DOB validation
     if (!formData.dob) {
       newErrors.dob = "Date of birth is required";
     } else {
@@ -132,19 +120,16 @@ export const FormContainer = ({ serviceSelection }) => {
       }
     }
 
-    // Place of Birth validation
     if (!formData.pob.trim()) {
       newErrors.pob = "Place of birth is required";
     } else if (formData.pob.trim().length < 2) {
       newErrors.pob = "Place of birth must be at least 2 characters long";
     }
 
-    // Time of Birth validation
     if (!formData.tob) {
       newErrors.tob = "Time of birth is required";
     }
 
-    // Service validation - now checks if it's an object with a title property
     if (!formData.service) {
       newErrors.service = "Please select a service";
     }
@@ -156,7 +141,6 @@ export const FormContainer = ({ serviceSelection }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form before submission
     if (!validateForm()) {
       setNotification({
         show: true,
@@ -170,7 +154,6 @@ export const FormContainer = ({ serviceSelection }) => {
     setNotification({ show: false, message: "", severity: "success" });
 
     try {
-      // The API is now robust, but to ensure consistency, we send the entire formData which includes the 'service' object.
       const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
@@ -188,6 +171,7 @@ export const FormContainer = ({ serviceSelection }) => {
             "Appointment request sent successfully! We will reach out to you within 24 hours.",
           severity: "success",
         });
+        setOpenCalModal(true);
         // Reset form
         setFormData({
           name: "",
@@ -219,357 +203,361 @@ export const FormContainer = ({ serviceSelection }) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
+    <>
       <Box
         sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          left: 0,
-          height: "100px",
-          backgroundImage: "linear-gradient(#1f1f1f, transparent)",
-          zIndex: -1,
-        }}
-      ></Box>
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          left: 0,
-          height: "500px",
-          backgroundImage: "linear-gradient(transparent, #1f1f1f)",
-          zIndex: -1,
-        }}
-      ></Box>
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          zIndex: -2,
-          opacity: 0.03,
+          position: "relative",
+          overflow: "hidden",
         }}
       >
-        <Image
-          src="images/zodiac/capricorn.svg"
-          layout="intrinsic"
-          height={300}
-          width={400}
-        />
-      </Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: { xs: -200, md: 0 },
-          right: { md: -300 },
-          opacity: 0.08,
-          zIndex: -2,
-        }}
-      >
-        <Image
-          src="/chartwheel_white.svg"
-          layout="intrinsic"
-          height={700}
-          width={700}
-        />
-      </Box>
-      <Container maxWidth="xl" sx={{ py: 4, zIndex: 2 }}>
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            position: "absolute",
+            top: 0,
+            right: 0,
+            left: 0,
+            height: "100px",
+            backgroundImage: "linear-gradient(#1f1f1f, transparent)",
+            zIndex: -1,
+          }}
+        ></Box>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            left: 0,
+            height: "500px",
+            backgroundImage: "linear-gradient(transparent, #1f1f1f)",
+            zIndex: -1,
+          }}
+        ></Box>
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 0,
+            zIndex: -2,
+            opacity: 0.03,
           }}
         >
+          <Image
+            src="images/zodiac/capricorn.svg"
+            layout="intrinsic"
+            height={300}
+            width={400}
+          />
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            top: { xs: -200, md: 0 },
+            right: { md: -300 },
+            opacity: 0.08,
+            zIndex: -2,
+          }}
+        >
+          <Image
+            src="/chartwheel_white.svg"
+            layout="intrinsic"
+            height={700}
+            width={700}
+          />
+        </Box>
+        <Container maxWidth="xl" sx={{ py: 4, zIndex: 2 }}>
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 1,
-              border: "1.5px solid #333333",
-              borderRadius: "100px",
-              py: 0.3,
-              pl: 0.3,
-              pr: 2,
-              bgcolor: "#181818",
+              justifyContent: "center",
             }}
           >
-            <Typography
+            <Box
               sx={{
-                color: "#FFFFFF",
-                fontSize: "14px",
-                bgcolor: "#ef8644",
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                border: "1.5px solid #333333",
                 borderRadius: "100px",
-                px: 1.5,
-                py: 0.5,
+                py: 0.3,
+                pl: 0.3,
+                pr: 2,
+                bgcolor: "#181818",
               }}
             >
-              Contact Us
-            </Typography>
-            <Typography sx={{ color: "#FFFFFF", fontSize: "14px" }}>
-              Begin with one simple step.
-            </Typography>
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Box
-            sx={{
-              mt: 5,
-              width: { xs: "100%", md: "700px" },
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#FFFFFF",
-                fontSize: { xs: "24px", md: "32px" },
-              }}
-              className="font-700"
-              textAlign={"center"}
-            >
-              Elevate your <span style={{ color: "#ef8644" }}>astrology</span>{" "}
-              experience
-            </Typography>
-          </Box>
-        </Box>
-        <Box sx={{ mt: 5 }}>
-          <CalBri />
-        </Box>
-        {/* <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            my: 5,
-          }}
-        >
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            sx={{
-              border: "2px solid white",
-              width: { xs: "100%", md: "900px" },
-              border: "1px solid #343434",
-              bgcolor: "#181818",
-              borderRadius: "12px",
-              backgroundImage:
-                "linear-gradient(to bottom right, #18181890, #F0874410)",
-              p: 4,
-            }}
-          >
-            <Typography
-              sx={{
-                color: "#F8F8F8",
-                fontSize: { xs: "16px", md: "18px" },
-                pb: 2,
-              }}
-            >
-              Discover what the stars have in store for your journey
-            </Typography>
-            <Grid container rowGap={2}>
-              <CustomInputBase
-                label="Name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Your Name..."
-                error={errors.name}
-              />
-
-              <CustomInputBase
-                label="Email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Your Email..."
-                error={errors.email}
-                paddingLeft={true}
-              />
-
-              <CustomInputBase
-                label="Phone"
-                name="phone"
-                type="text"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Your Phone..."
-                error={errors.phone}
-                inputProps={{
-                  maxLength: 10,
-                  pattern: "[0-9]*",
+              <Typography
+                sx={{
+                  color: "#FFFFFF",
+                  fontSize: "14px",
+                  bgcolor: "#ef8644",
+                  borderRadius: "100px",
+                  px: 1.5,
+                  py: 0.5,
                 }}
-              />
-
-              <CustomInputBase
-                label="Date of Birth"
-                name="dob"
-                type="date"
-                value={formData.dob}
-                onChange={handleChange}
-                placeholder="..."
-                error={errors.dob}
-                paddingLeft={true}
-              />
-
-              <CustomInputBase
-                label="Place of Birth"
-                name="pob"
-                type="text"
-                value={formData.pob}
-                onChange={handleChange}
-                placeholder="Place of Birth..."
-                error={errors.pob}
-              />
-
-              <CustomInputBase
-                label="Time of Birth"
-                name="tob"
-                type="time"
-                value={formData.tob}
-                onChange={handleChange}
-                placeholder="..."
-                error={errors.tob}
-                paddingLeft={true}
-              />
-
-              <Grid item size={12}>
-                <Typography
-                  sx={{
-                    color: "#F8F8F8",
-                    fontSize: "14px",
-                    mb: 1,
-                  }}
-                >
-                  Select Service
-                </Typography>
-                <Select
-                  fullWidth
-                  size="small"
-                  name="service"
-                  value={formData.service}
+              >
+                Contact Us
+              </Typography>
+              <Typography sx={{ color: "#FFFFFF", fontSize: "14px" }}>
+                Begin with one simple step.
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                mt: 5,
+                width: { xs: "100%", md: "700px" },
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#FFFFFF",
+                  fontSize: { xs: "24px", md: "32px" },
+                }}
+                className="font-700"
+                textAlign={"center"}
+              >
+                Elevate your <span style={{ color: "#ef8644" }}>astrology</span>{" "}
+                experience
+              </Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              my: 5,
+            }}
+          >
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{
+                border: "2px solid white",
+                width: { xs: "100%", md: "900px" },
+                border: "1px solid #343434",
+                bgcolor: "#181818",
+                borderRadius: "12px",
+                backgroundImage:
+                  "linear-gradient(to bottom right, #18181890, #F0874410)",
+                p: 4,
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "#F8F8F8",
+                  fontSize: { xs: "16px", md: "18px" },
+                  pb: 2,
+                }}
+              >
+                Discover what the stars have in store for your journey
+              </Typography>
+              <Grid container rowGap={2}>
+                <CustomInputBase
+                  label="Name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
                   onChange={handleChange}
-                  displayEmpty
-                  sx={{
-                    bgcolor: "#1f1f1f",
-                    color: formData.service ? "#FFFFFF" : "#888888",
-                    border: errors.service
-                      ? "1px solid #f44336"
-                      : "1px solid #343434",
-                    borderRadius: "8px",
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      border: "none",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                      border: "none",
-                    },
-                    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                      border: "none",
-                    },
-                    "&.Mui-focused": {
-                      border: "1px solid #ef8644",
-                    },
-                    "& .MuiSelect-icon": {
-                      color: "#FFFFFF",
-                    },
+                  placeholder="Your Name..."
+                  error={errors.name}
+                />
+
+                <CustomInputBase
+                  label="Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Your Email..."
+                  error={errors.email}
+                  paddingLeft={true}
+                />
+
+                <CustomInputBase
+                  label="Phone"
+                  name="phone"
+                  type="text"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Your Phone..."
+                  error={errors.phone}
+                  inputProps={{
+                    maxLength: 10,
+                    pattern: "[0-9]*",
                   }}
-                  MenuProps={{
-                    PaperProps: {
-                      sx: {
-                        bgcolor: "#1f1f1f",
-                        border: "1px solid #343434",
-                        "& .MuiMenuItem-root": {
-                          color: "#FFFFFF",
-                          "&:hover": {
-                            bgcolor: "#2a2a2a",
-                          },
-                          "&.Mui-selected": {
-                            bgcolor: "#ef8644",
+                />
+
+                <CustomInputBase
+                  label="Date of Birth"
+                  name="dob"
+                  type="date"
+                  value={formData.dob}
+                  onChange={handleChange}
+                  placeholder="..."
+                  error={errors.dob}
+                  paddingLeft={true}
+                />
+
+                <CustomInputBase
+                  label="Place of Birth"
+                  name="pob"
+                  type="text"
+                  value={formData.pob}
+                  onChange={handleChange}
+                  placeholder="Place of Birth..."
+                  error={errors.pob}
+                />
+
+                <CustomInputBase
+                  label="Time of Birth"
+                  name="tob"
+                  type="time"
+                  value={formData.tob}
+                  onChange={handleChange}
+                  placeholder="..."
+                  error={errors.tob}
+                  paddingLeft={true}
+                />
+
+                <Grid item size={12}>
+                  <Typography
+                    sx={{
+                      color: "#F8F8F8",
+                      fontSize: "14px",
+                      mb: 1,
+                    }}
+                  >
+                    Select Service
+                  </Typography>
+                  <Select
+                    fullWidth
+                    size="small"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    displayEmpty
+                    sx={{
+                      bgcolor: "#1f1f1f",
+                      color: formData.service ? "#FFFFFF" : "#888888",
+                      border: errors.service
+                        ? "1px solid #f44336"
+                        : "1px solid #343434",
+                      borderRadius: "8px",
+                      "& .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                      },
+                      "&:hover .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                      },
+                      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                        border: "none",
+                      },
+                      "&.Mui-focused": {
+                        border: "1px solid #ef8644",
+                      },
+                      "& .MuiSelect-icon": {
+                        color: "#FFFFFF",
+                      },
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        sx: {
+                          bgcolor: "#1f1f1f",
+                          border: "1px solid #343434",
+                          "& .MuiMenuItem-root": {
+                            color: "#FFFFFF",
                             "&:hover": {
-                              bgcolor: "#d6743a",
+                              bgcolor: "#2a2a2a",
+                            },
+                            "&.Mui-selected": {
+                              bgcolor: "#ef8644",
+                              "&:hover": {
+                                bgcolor: "#d6743a",
+                              },
                             },
                           },
                         },
                       },
-                    },
-                  }}
-                >
-                  <MenuItem value="">
-                    <Typography sx={{ color: "#FFFFFF" }}>
-                      Select a service...
-                    </Typography>
-                  </MenuItem>
-                  {FEATURES.map((feature, index) => (
-                    <MenuItem key={index} value={feature.title}>
-                      {feature.title} - ₹{feature.price}
+                    }}
+                  >
+                    <MenuItem value="">
+                      <Typography sx={{ color: "#FFFFFF" }}>
+                        Select a service...
+                      </Typography>
                     </MenuItem>
-                  ))}
-                </Select>
-                {errors.service && (
-                  <FormHelperText sx={{ color: "#f44336", ml: 1 }}>
-                    {errors.service}
-                  </FormHelperText>
-                )}
+                    {FEATURES.map((feature, index) => (
+                      <MenuItem key={index} value={feature.title}>
+                        {feature.title} - ₹{feature.price}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.service && (
+                    <FormHelperText sx={{ color: "#f44336", ml: 1 }}>
+                      {errors.service}
+                    </FormHelperText>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              className="font-600"
-              fullWidth
-              disabled={loading}
-              sx={{
-                textTransform: "none",
-                bgcolor: "#ef8644",
-                color: "#FFFFFF",
-                borderRadius: "50px",
-                mt: 5,
-                fontSize: "18px",
-                "&:hover": {
-                  bgcolor: "#d6743a",
-                },
-                "&:disabled": {
-                  bgcolor: "#666666",
-                  color: "#999999",
-                },
-              }}
-            >
-              {loading ? "Sending..." : "Book Appointment"}
-            </Button>
-
-            {notification.show && (
-              <Alert
-                severity={notification.severity}
+              <Button
+                type="submit"
+                className="font-600"
+                fullWidth
+                disabled={loading}
                 sx={{
-                  mt: 2,
-                  bgcolor:
-                    notification.severity === "success" ? "#1b5e20" : "#d32f2f",
+                  textTransform: "none",
+                  bgcolor: "#ef8644",
                   color: "#FFFFFF",
-                  border: `1px solid ${
-                    notification.severity === "success" ? "#2e7d32" : "#f44336"
-                  }`,
-                  borderRadius: "8px",
-                  "& .MuiAlert-icon": {
-                    color: "#FFFFFF",
+                  borderRadius: "50px",
+                  mt: 5,
+                  fontSize: "18px",
+                  "&:hover": {
+                    bgcolor: "#d6743a",
+                  },
+                  "&:disabled": {
+                    bgcolor: "#666666",
+                    color: "#999999",
                   },
                 }}
               >
-                {notification.message}
-              </Alert>
-            )}
+                {loading ? "Sending..." : "Book Appointment"}
+              </Button>
+
+              {notification.show && (
+                <Alert
+                  severity={notification.severity}
+                  sx={{
+                    mt: 2,
+                    bgcolor:
+                      notification.severity === "success"
+                        ? "#1b5e20"
+                        : "#d32f2f",
+                    color: "#FFFFFF",
+                    border: `1px solid ${
+                      notification.severity === "success"
+                        ? "#2e7d32"
+                        : "#f44336"
+                    }`,
+                    borderRadius: "8px",
+                    "& .MuiAlert-icon": {
+                      color: "#FFFFFF",
+                    },
+                  }}
+                >
+                  {notification.message}
+                </Alert>
+              )}
+            </Box>
           </Box>
-        </Box> */}
-      </Container>
-    </Box>
+        </Container>
+      </Box>
+      <CalModal openCalModal={openCalModal} setOpenCalModal={setOpenCalModal} />
+    </>
   );
 };
