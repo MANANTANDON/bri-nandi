@@ -58,10 +58,11 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
               lineHeight: 1.4,
             }}
           >
-            Thank you! We've received your request and will get back to you
-            within 24 hours. A confirmation email is on its way check your spam
-            folder if you don't see it. You can also pick a time slot below for
-            your consultation call, or skip it and we'll coordinate directly.
+            Thank you! We have received your request and will respond within 24
+            hours. A confirmation email is on its way--please check your spam
+            folder if you don't see it. You may also select a time slot below
+            for your consultation call, or skip it and we'll coordinate
+            directly.
           </Typography>
 
           <IconButton
