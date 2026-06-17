@@ -3,12 +3,17 @@ import nodemailer from "nodemailer";
 import crypto from "crypto";
 
 // Function to generate unique customer ID
-function generateCustomerId() {
-  const timestamp = Date.now().toString(36); // Convert timestamp to base36
-  const randomStr = crypto.randomBytes(4).toString("hex"); // Random 8 characters
-  return `ASTRO-${timestamp}-${randomStr}`.toUpperCase();
-}
+function generateCustomerId(name) {
+  const slug = name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z\s]/g, "")
+    .replace(/\s+/g, "-");
 
+  const hexCode = crypto.randomBytes(3).toString("hex");
+
+  return `${slug}-${hexCode}`;
+}
 // Format time with AM/PM
 function formatTimeWithAMPM(time) {
   if (!time) return time;
@@ -25,6 +30,12 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log("ENV CHECK:", {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS ? "exists" : "MISSING",
+      recipient: process.env.RECIPIENT_EMAIL,
+    });
+
     let { name, email, phone, dob, pob, tob, service } = req.body; // Changed 'const' to 'let' for service
 
     // Validate required fields (including checking for an essential property on the service object)
@@ -36,7 +47,7 @@ export default async function handler(req, res) {
     }
 
     // Generate unique customer ID
-    const customerId = generateCustomerId();
+    const customerId = generateCustomerId(name);
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -56,7 +67,7 @@ export default async function handler(req, res) {
     const formattedTOB = formatTimeWithAMPM(tob);
 
     const mailOptions = {
-      from: `"${name} via Astrology Contact Form" <${email}>`,
+      from: `"${name} (via Astrology Form)" <${process.env.EMAIL_USER}>`,
       to: process.env.RECIPIENT_EMAIL,
       replyTo: email,
       subject: `New ${service} Appointment from ${name} - ID: ${customerId}`,
@@ -195,7 +206,7 @@ export default async function handler(req, res) {
                   hour: "2-digit",
                   minute: "2-digit",
                   timeZoneName: "short",
-                }
+                },
               )}</p>
             </div>
           </div>
@@ -206,13 +217,81 @@ export default async function handler(req, res) {
 
     await transporter.sendMail(mailOptions);
 
+    // Confirmation mail to the user
+    const confirmationMail = {
+      from: `"Bri Nandi Team" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: `Booking Confirmed - ${customerId}`,
+      html: `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; }
+        h2 { color: #ef8644; border-bottom: 2px solid #ef8644; padding-bottom: 10px; }
+        .customer-id {
+          background: linear-gradient(135deg, #ef8644, #d6743a);
+          color: white; padding: 15px; border-radius: 8px;
+          text-align: center; margin: 20px 0;
+          font-size: 18px; font-weight: bold; letter-spacing: 1px;
+        }
+        .info-row {
+          background-color: #fff; padding: 12px; margin: 8px 0;
+          border-radius: 5px; border-left: 4px solid #ef8644;
+        }
+        .label { font-weight: bold; color: #555; display: inline-block; min-width: 150px; }
+        .footer { margin-top: 20px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 12px; color: #777; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h2>🌟 Booking Confirmation</h2>
+        <p>Hi <strong>${name}</strong>, thank you for booking with us! We've received your request and will reach out within 24 hours.</p>
+
+        <div class="customer-id">
+          Your Booking ID: ${customerId}
+        </div>
+
+        <div class="info-row">
+          <span class="label">Service:</span>
+          <span>${service}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Date of Birth:</span>
+          <span>${formattedDOB}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Time of Birth:</span>
+          <span>${formattedTOB}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Place of Birth:</span>
+          <span>${pob}</span>
+        </div>
+
+        <div class="footer">
+          <p>Please save your Booking ID for future reference.</p>
+          <p>If you have any questions, reply to this email.</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `,
+    };
+
+    await transporter.sendMail(confirmationMail);
+
     res.status(200).json({
       success: true,
       message: "Email sent successfully!",
       customerId: customerId,
     });
   } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ success: false, message: "Failed to send email" });
+    console.error("Full error:", error.message, error.stack);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 }

@@ -58,8 +58,10 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
               lineHeight: 1.4,
             }}
           >
-            We’ve received your request successfully. If you wish, you can
-            select a convenient time for your consultation call now.
+            Thank you! We've received your request and will get back to you
+            within 24 hours. A confirmation email is on its way check your spam
+            folder if you don't see it. You can also pick a time slot below for
+            your consultation call, or skip it and we'll coordinate directly.
           </Typography>
 
           <IconButton
