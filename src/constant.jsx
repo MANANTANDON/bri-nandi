@@ -11,7 +11,7 @@ export const FEATURES = [
     content:
       "Professional Career Roadmap Analysis - Comprehensive Vedic Career Blueprint",
     duration: "Call Duration - 30 min",
-    price: "499",
+    price: "599",
   },
   {
     zodiac_sign: "/images/zodiac/aries.svg",
@@ -20,7 +20,7 @@ export const FEATURES = [
     content:
       "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
     duration: "Call Duration - 30 min",
-    price: "399",
+    price: "499",
   },
 
   {
@@ -30,6 +30,6 @@ export const FEATURES = [
     content:
       "Sacred Union Analysis - Complete Vedic Compatibility & Relationship Harmony Reading",
     duration: "Call Duration - 30 min",
-    price: "499",
+    price: "599",
   },
 ];
