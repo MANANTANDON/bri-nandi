@@ -4,7 +4,7 @@ import React from "react";
 import CalBri from "../Home/CalBri";
 
 export const CalModal = ({ openCalModal, setOpenCalModal }) => {
-  const handleClose = () => setOpenCalModal(false);
+  // const handleClose = () => setOpenCalModal(false);
 
   return (
     <Modal
@@ -16,21 +16,21 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        overflow: "auto", // ✅ allows scrolling on small screens
+        overflow: "auto",
         p: 2,
       }}
     >
       <Box
         sx={{
           width: { xs: "95%", sm: "90%", md: 1000 },
-          maxHeight: "90vh", // ✅ prevents overflow outside screen
-          overflowY: "auto", // ✅ enables internal scroll
+          maxHeight: "90vh",
+          overflowY: "auto",
           bgcolor: "#181818",
           border: "1px solid #343434",
           borderRadius: "12px",
           boxShadow: 24,
           outline: "none",
-          WebkitOverflowScrolling: "touch", // ✅ smooth iOS scroll
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {/* HEADER (Sticky) */}
@@ -59,13 +59,12 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
             }}
           >
             Thank you! We have received your request and will respond within 24
-            hours. A confirmation email is on its way--please check your spam
-            folder if you don't see it. You may also select a time slot below
-            for your consultation call, or skip it and we'll coordinate
-            directly.
+            hours. A confirmation email is on its way, please check your spam
+            folder if you don't see it. Please also select a time slot below for
+            your consultation call.
           </Typography>
 
-          <IconButton
+          {/* <IconButton
             onClick={handleClose}
             sx={{
               color: "#fff",
@@ -73,7 +72,7 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
             }}
           >
             <CloseIcon />
-          </IconButton>
+          </IconButton> */}
         </Box>
 
         {/* CONTENT */}
