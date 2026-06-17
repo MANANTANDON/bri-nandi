@@ -365,7 +365,7 @@ export const FormContainer = ({ serviceSelection }) => {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Your Name..."
+                  placeholder="Your Name"
                   error={errors.name}
                 />
 
@@ -375,7 +375,7 @@ export const FormContainer = ({ serviceSelection }) => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Your Email..."
+                  placeholder="Your Email"
                   error={errors.email}
                   paddingLeft={true}
                 />
@@ -386,7 +386,7 @@ export const FormContainer = ({ serviceSelection }) => {
                   type="text"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="Your Phone..."
+                  placeholder="Your Phone"
                   error={errors.phone}
                   inputProps={{
                     maxLength: 10,
@@ -411,7 +411,7 @@ export const FormContainer = ({ serviceSelection }) => {
                   type="text"
                   value={formData.pob}
                   onChange={handleChange}
-                  placeholder="Place of Birth..."
+                  placeholder="e.g. Chandigarh, India"
                   error={errors.pob}
                 />
 
