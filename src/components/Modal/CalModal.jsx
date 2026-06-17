@@ -55,9 +55,9 @@ export const CalModal = ({ openCalModal }) => {
             }}
           >
             Thank you! We have received your request and will respond within 24
-            hours. A confirmation email is on its way, please check your spam
-            folder if you don't see it. Please also select a time slot below for
-            your consultation call.
+            hours. A confirmation email is on its way, check your spam folder if
+            you don't see it. Please also select a time slot below for your
+            consultation call.
           </Typography>
         </Box>
 
