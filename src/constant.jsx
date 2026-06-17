@@ -20,7 +20,7 @@ export const FEATURES = [
     content:
       "Generate Your Personalized Kundali & Unlock Vedic Wisdom (Includes 2 Detailed Astrological Insights)",
     duration: "Call Duration - 30 min",
-    price: "499",
+    price: "699",
   },
 
   {
