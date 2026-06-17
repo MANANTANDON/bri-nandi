@@ -1,36 +1,32 @@
-import { Modal, Box, Typography, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { Modal, Box, Typography } from "@mui/material";
 import React from "react";
 import CalBri from "../Home/CalBri";
 
-export const CalModal = ({ openCalModal, setOpenCalModal }) => {
-  // const handleClose = () => setOpenCalModal(false);
-
+export const CalModal = ({ openCalModal }) => {
   return (
     <Modal
       open={openCalModal}
-      onClose={handleClose}
       aria-labelledby="calendar-modal"
       aria-describedby="calendar-modal-description"
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        overflow: "auto",
+        overflow: "auto", // ✅ allows scrolling on small screens
         p: 2,
       }}
     >
       <Box
         sx={{
           width: { xs: "95%", sm: "90%", md: 1000 },
-          maxHeight: "90vh",
-          overflowY: "auto",
+          maxHeight: "90vh", // ✅ prevents overflow outside screen
+          overflowY: "auto", // ✅ enables internal scroll
           bgcolor: "#181818",
           border: "1px solid #343434",
           borderRadius: "12px",
           boxShadow: 24,
           outline: "none",
-          WebkitOverflowScrolling: "touch",
+          WebkitOverflowScrolling: "touch", // ✅ smooth iOS scroll
         }}
       >
         {/* HEADER (Sticky) */}
@@ -63,16 +59,6 @@ export const CalModal = ({ openCalModal, setOpenCalModal }) => {
             folder if you don't see it. Please also select a time slot below for
             your consultation call.
           </Typography>
-
-          {/* <IconButton
-            onClick={handleClose}
-            sx={{
-              color: "#fff",
-              mt: "-4px",
-            }}
-          >
-            <CloseIcon />
-          </IconButton> */}
         </Box>
 
         {/* CONTENT */}
