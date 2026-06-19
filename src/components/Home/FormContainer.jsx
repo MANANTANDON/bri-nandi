@@ -15,6 +15,7 @@ import Image from "next/image";
 import { CustomInputBase } from "../FormControl/CustomInputBase";
 import { FEATURES } from "@/constant";
 import { CalModal } from "../Modal/CalModal";
+import { WhatsApp } from "@mui/icons-material";
 
 export const FormContainer = ({ serviceSelection }) => {
   const [openCalModal, setOpenCalModal] = useState(false);
@@ -358,6 +359,80 @@ export const FormContainer = ({ serviceSelection }) => {
               >
                 Discover what the stars have in store for your journey
               </Typography>
+              <Box
+                sx={{
+                  mt: 3,
+                  mb: 4,
+                  p: 2,
+                  border: "1px solid #343434",
+                  bgcolor: "#181818",
+                  borderRadius: "12px",
+                  display: "flex",
+                  flexDirection: { xs: "column", md: "row" },
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 2,
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "#F8F8F8",
+                    fontSize: "14px",
+                  }}
+                >
+                  Prefer a quicker conversation? Skip the form and connect with
+                  us directly on WhatsApp for personalized assistance.
+                </Typography>
+
+                <Button
+                  component="a"
+                  href="https://wa.me/917042260907"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    bgcolor: "#25D366",
+                    color: "#FFFFFF",
+                    textTransform: "none",
+                    borderRadius: "50px",
+                    px: 6,
+                    py: 1,
+                    whiteSpace: "nowrap",
+                    display: "flex",
+                    gap: "6px",
+                    fontSize: "17px",
+                    width: { xs: "100%", lg: "auto" },
+                    alignItems: "center",
+                    "&:hover": {
+                      bgcolor: "#1ebe5d",
+                    },
+                  }}
+                >
+                  Chat on WhatsApp <WhatsApp sx={{ color: "#FFFFFF" }} />
+                </Button>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  width: "100%",
+                  my: 5,
+                }}
+              >
+                <Box sx={{ flex: 1, height: "1px", bgcolor: "#343434" }} />
+                <Typography
+                  sx={{
+                    mx: 2,
+                    color: "#888888",
+                    fontSize: "14px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Or
+                </Typography>
+
+                <Box sx={{ flex: 1, height: "1px", bgcolor: "#343434" }} />
+              </Box>
               <Grid container rowGap={2}>
                 <CustomInputBase
                   label="Name"

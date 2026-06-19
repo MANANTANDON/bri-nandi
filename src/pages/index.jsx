@@ -5,6 +5,7 @@ import { FormContainer } from "@/components/Home/FormContainer";
 import { SecondContainer } from "@/components/Home/SecondContainer";
 import { Footer } from "@/components/Footer/Footer";
 import CalBri from "@/components/Home/CalBri";
+import { WhatsApp } from "@mui/icons-material";
 
 export default function Home() {
   const [serviceSelection, setServiceSelection] = useState("");
@@ -353,6 +354,27 @@ export default function Home() {
         />
       </Head>
 
+      <a
+        href="https://wa.me/917042260907"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          backgroundColor: "#25D366",
+          height: "60px",
+          width: "60px",
+          position: "fixed",
+          bottom: "30px",
+          right: "30px",
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999,
+          boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+        }}
+      >
+        <WhatsApp sx={{ color: "#FFFFFF", fontSize: 32 }} />
+      </a>
       <HeroCont onScrollToForm={scrollToForm} />
       <SecondContainer
         onScrollToForm={scrollToForm}
